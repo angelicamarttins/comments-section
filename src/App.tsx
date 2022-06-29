@@ -1,13 +1,7 @@
-import { useEffect } from "react"
+import { useEffect } from 'react'
 
 function App() {
-  useEffect(() => {
-    fetch()
-  }, [])
-  
-  return (
-    <></>
-  )
+	return <></>
 }
 
 export default App
