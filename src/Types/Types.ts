@@ -1,4 +1,4 @@
-export type Data = {
+export type CommentsData = {
   currentUser: UserType
   comments: CommentsType[]
 }

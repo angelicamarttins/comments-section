@@ -1,11 +1,16 @@
 import { useEffect } from 'react'
-import useFetch from './Hooks/useFetch'
+import useFetch from './Hooks/useLocalStorageValues'
 
 function App() {
-	const data = useFetch()
+  const commentsData = useFetch()
+	console.log(commentsData)
 
-	console.log(data)
-	return <div>{data?.comments[0].content}</div>
+
+	return (
+		<form>
+			<input type="text" />
+		</form>
+	)
 }
 
 export default App
