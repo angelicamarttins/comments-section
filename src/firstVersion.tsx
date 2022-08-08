@@ -10,8 +10,6 @@ function App() {
 	const [showReplyForm, setShowReplyForm] = useState(0)
 	const [update, setUpdate] = useState(false)
 
-	const [setState, newComment] = useHandleComments()
-
 	useEffect(() => {
 		const getLocalStorage = window.localStorage.getItem('data')
 		if (getLocalStorage) return setData(JSON.parse(getLocalStorage))

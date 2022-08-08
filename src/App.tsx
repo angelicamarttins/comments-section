@@ -1,22 +1,22 @@
 import { useEffect } from 'react'
 import { useHandleComments } from './Hooks/useHandleComments'
-import useFetch from './Hooks/useLocalStorageValues'
+import useLocalStorageValues from './Hooks/useLocalStorageValues'
 
 function App() {
-  
-  const commentsData = useFetch()
-  console.log(commentsData)
+	const commentsData = useLocalStorageValues()
+	console.log("commentsData")
 
-	const { comments, handleComments } = useHandleComments()
+	const { comments, handleComments, handleSubmit } = useHandleComments()
 
 	return (
-		<form>
+		<form onSubmit={(event) => handleSubmit(event)}>
 			<input
 				type="text"
 				value={comments}
 				onChange={({ target }) => handleComments(target.value)}
 			/>
 			<p>{comments}</p>
+			<button>Submit</button>
 		</form>
 	)
 }
