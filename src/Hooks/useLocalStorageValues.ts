@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { CommentsData } from '../Types/Types'
 
-function useFetch() {
+function useLocalStorageValues() {
 	const [commentsData, setCommentsData] = useState<CommentsData>()
 
 	useEffect(() => {
@@ -20,4 +20,4 @@ function useFetch() {
 	return commentsData
 }
 
-export default useFetch
+export default useLocalStorageValues
