@@ -1,24 +1,29 @@
 import { useState } from 'react'
-import useLocalStorageValues from './useLocalStorageValues'
+import useLocalStorage from './useLocalStorage'
 import { CommentsType } from '../Types/Types'
 
 export const useHandleComments = () => {
-	const commentsData = useLocalStorageValues()
-  
+	const { commentsData, getLocalStorageValues, setLocalStorageValues } =
+		useLocalStorage()
+	const hasIdCountInLocalStorage = getLocalStorageValues('idCount')
+
 	const [comments, setComments] = useState('')
-	const [idCount, setIdCount] = useState(5)
+	const [idCount, setIdCount] = useState<number>(() => bla())
+
+	function bla() {
+		if (hasIdCountInLocalStorage) return Number(hasIdCountInLocalStorage)
+
+		setLocalStorageValues('idCount', 5)
+		return 5
+	}
+
+	console.log(typeof Number(hasIdCountInLocalStorage), idCount)
 
 	function handleComments(inputValue: string) {
 		setComments(inputValue)
 	}
 
-	function handleSubmit(
-		event: React.FormEvent<HTMLFormElement>,
-		isReply?: boolean,
-    replyingTo?: string
-	) {
-		event.preventDefault()
-
+	function handleSubmit(index: number, isReply: boolean, replyingTo?: string) {
 		setIdCount(idCount + 1)
 
 		const newComment: CommentsType = {
@@ -29,24 +34,29 @@ export const useHandleComments = () => {
 			...(isReply && { replyingTo }),
 			user: {
 				image: {
-					png: './images/avatars/image-juliusomo.png',
-					webp: './images/avatars/image-juliusomo.webp'
+					png: './assets/images/avatars/image-juliusomo.png',
+					webp: './assets/images/avatars/image-juliusomo.webp'
 				},
 				username: 'juliusomo'
 			}
 		}
 
-		console.log(isReply)
+		console.log(newComment)
+		console.log(commentsData?.comments[index].replies)
 
-		!isReply && commentsData?.comments.push(newComment)
+		!isReply && commentsData
+			? commentsData?.comments.push(newComment)
+			: commentsData?.comments?.[index]?.replies?.push(newComment)
 
-		window.localStorage.setItem('commentsData', JSON.stringify(commentsData))
+		setLocalStorageValues('commentsData', commentsData)
 
-		console.log(idCount)
+		// window.localStorage.setItem('commentsData', JSON.stringify(commentsData))
+
 		setComments('')
 	}
 
-	return { comments, handleComments, handleSubmit }
+	setLocalStorageValues('idCount', idCount)
+	return { comments, idCount, handleComments, handleSubmit }
 }
 
 export default useHandleComments

@@ -1,21 +1,22 @@
-import { useEffect } from 'react'
 import { Comments } from './Components/Comments/Comments'
-import { useHandleComments } from './Hooks/useHandleComments'
-import useLocalStorageValues from './Hooks/useLocalStorageValues'
+import { NewComment } from './Components/NewComment/NewComment'
+import useLocalStorage from './Hooks/useLocalStorage'
 import { CommentsType } from './Types/Types'
 
 function App() {
-	const commentsData = useLocalStorageValues()
-	console.log('commentsData')
-
-	const { comments, handleComments, handleSubmit } = useHandleComments()
+	const { commentsData, addLocalStorageValues } = useLocalStorage()
+	console.log('app')
 
 	return (
 		<>
+			<button onClick={() => addLocalStorageValues('teste', { teste: 123 })}>
+				Teste
+			</button>
 			{commentsData &&
-				commentsData.comments.map((comment: CommentsType) => {
-					return <Comments {...comment} />
+				commentsData.comments.map((comment: CommentsType, index) => {
+					return <Comments index={index} key={comment.id} {...comment} />
 				})}
+			<NewComment />
 		</>
 	)
 }

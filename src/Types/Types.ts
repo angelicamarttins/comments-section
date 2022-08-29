@@ -15,6 +15,7 @@ export type ImageType = {
 
 export type CommentsType = {
   id: number
+  index?: number
   content: string
   createdAt: string
   score: number
