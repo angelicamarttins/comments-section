@@ -1,18 +1,12 @@
 import { useEffect } from 'react'
 import { Comments } from './Components/Comments/Comments'
 import { NewComment } from './Components/NewComment/NewComment'
-import { requestProps, useFetch } from './Hooks/useFetch'
-import useLocalStorage from './Hooks/useLocalStorage'
+import { useFetch, useFetchReturn } from './Hooks/useFetch'
 import { CommentsData, CommentsType } from './Types/Types'
 
 function App() {
-	const {
-		data: commentsData,
-		request
-	}: {
-		data?: CommentsData
-		request: ({ url }: requestProps) => Promise<void>
-	} = useFetch()
+	const { data: commentsData, request } =
+		useFetch() as useFetchReturn<CommentsData>
 
 	useEffect(() => {
 		request({ url: 'data.json' })
@@ -21,11 +15,7 @@ function App() {
 	console.log(commentsData)
 	return (
 		<>
-			{/* <button onClick={() => addLocalStorageValues('teste', { teste: 123 })}>
-				Teste
-			</button> */}
-			{commentsData &&
-				commentsData.comments.map((comment: CommentsType, index) => {
+			{commentsData?.comments.map((comment: CommentsType, index: number) => {
 					return <Comments index={index} key={comment.id} {...comment} />
 				})}
 			<NewComment />

@@ -1,6 +1,11 @@
 import { useCallback, useState } from 'react'
 
-export type requestProps = {
+export type useFetchReturn<T> = {
+	data?: T
+	request: ({ url, options }: requestProps) => Promise<void>
+}
+
+type requestProps = {
 	url: string
 	options?: optionsData
 }
@@ -10,24 +15,22 @@ type optionsData = {
 	headers?: Headers
 }
 
-export const useFetch = () => {
+export const useFetch = <T>(): useFetchReturn<T> => {
 	const [data, setData] = useState()
 	const [responseStatus, setResponseStatus] = useState<number>()
 
 	const request = useCallback(
-		async ({ url }: requestProps) => {
+		async ({ url, options }: requestProps) => {
 			try {
-				const response = await fetch(url)
-
-        setResponseStatus(response.status)
+				const response = await fetch(url, options)
+				setResponseStatus(response.status)
 
 				const json = await response.json()
 
 				setData(json)
 			} catch (error) {
-        throw new Error(`Error: ${responseStatus}`);
-
-      }
+				throw new Error(`Error: ${responseStatus}`)
+			}
 		},
 		[data]
 	)
