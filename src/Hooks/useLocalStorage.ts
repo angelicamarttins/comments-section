@@ -6,7 +6,11 @@ export default function useLocalStorage() {
 	function getLocalStorageValues(key: string) {
 		const getLocalStorage = window.localStorage.getItem(key)
 
-		return getLocalStorage
+    if (getLocalStorage === null) return null
+
+    if (getLocalStorage === 'undefined') return undefined
+
+    return JSON.parse(getLocalStorage)
 	}
 
 	return { getLocalStorageValues, setLocalStorageValues }
