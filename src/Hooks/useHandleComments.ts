@@ -17,7 +17,7 @@ export const useHandleComments = () => {
 		return 5
 	}
 
-	console.log(typeof Number(hasIdCountInLocalStorage), idCount)
+	// console.log(typeof Number(hasIdCountInLocalStorage), idCount)
 
 	function handleComments(inputValue: string) {
 		setComments(inputValue)
@@ -41,8 +41,8 @@ export const useHandleComments = () => {
 			}
 		}
 
-		console.log(newComment)
-		console.log(commentsData?.comments[index].replies)
+		// console.log(newComment)
+		// console.log(commentsData?.comments[index].replies)
 
 		!isReply && commentsData
 			? commentsData?.comments.push(newComment)
