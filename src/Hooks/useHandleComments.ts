@@ -1,29 +1,30 @@
 import { useState } from 'react'
 import useLocalStorage from './useLocalStorage'
-import { CommentsType } from '../Types/Types'
+import { CommentsData, CommentsType } from '../Types/Types'
 
-export const useHandleComments = () => {
-	const { commentsData, getLocalStorageValues, setLocalStorageValues } =
-		useLocalStorage()
-	const hasIdCountInLocalStorage = getLocalStorageValues('idCount')
+export const useHandleComments = (initialId: number) => {
+	const {
+		hasLocalStorageValues,
+		getLocalStorageValues,
+		setLocalStorageValues
+	} = useLocalStorage()
 
+	const [idCount, setIdCount] = useState(
+		hasLocalStorageValues('idCount', initialId)
+	)
 	const [comments, setComments] = useState('')
-	const [idCount, setIdCount] = useState<number>(() => bla())
-
-	function bla() {
-		if (hasIdCountInLocalStorage) return Number(hasIdCountInLocalStorage)
-
-		setLocalStorageValues('idCount', 5)
-		return 5
-	}
-
-	// console.log(typeof Number(hasIdCountInLocalStorage), idCount)
+	const commentsData: CommentsData | null =
+		getLocalStorageValues('commentsData')
 
 	function handleComments(inputValue: string) {
 		setComments(inputValue)
 	}
 
-	function handleSubmit(index: number, isReply: boolean, replyingTo?: string) {
+	function handleSubmit(
+		isReply: boolean,
+		index: number = 0,
+		replyingTo?: string
+	) {
 		setIdCount(idCount + 1)
 
 		const newComment: CommentsType = {
@@ -41,21 +42,16 @@ export const useHandleComments = () => {
 			}
 		}
 
-		// console.log(newComment)
-		// console.log(commentsData?.comments[index].replies)
-
 		!isReply && commentsData
-			? commentsData?.comments.push(newComment)
+			? commentsData.comments.push(newComment)
 			: commentsData?.comments?.[index]?.replies?.push(newComment)
 
 		setLocalStorageValues('commentsData', commentsData)
 
-		// window.localStorage.setItem('commentsData', JSON.stringify(commentsData))
-
 		setComments('')
 	}
-
 	setLocalStorageValues('idCount', idCount)
+
 	return { comments, idCount, handleComments, handleSubmit }
 }
 

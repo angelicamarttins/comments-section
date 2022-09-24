@@ -6,7 +6,7 @@ export const Replies = ({
 	content,
 	createdAt,
 	id,
-  index,
+	index,
 	replies,
 	replyingTo,
 	score,
@@ -28,12 +28,14 @@ export const Replies = ({
 				<p>{content}</p>
 				<p>score: {score}</p>
 				<p>username: {username}</p>
-        {index && <p>{index}</p>}
+				{index && <p>{index}</p>}
 			</>
 			<div>
 				<button onClick={shouldShowTextarea}>Reply</button>
 			</div>
-			{showTextarea && <NewComment index={index} isReply replyingTo={username} />}
+			{showTextarea && (
+				<NewComment index={index} isReply replyingTo={username} />
+			)}
 		</div>
 	)
 }

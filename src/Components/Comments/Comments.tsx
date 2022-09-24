@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import useHandleComments from '../../Hooks/useHandleComments'
 import { useNewReply } from '../../Hooks/useNewReply'
 
@@ -9,14 +10,14 @@ export const Comments = ({
 	content,
 	createdAt,
 	id,
-  index,
+	index,
 	replies,
 	score,
 	user
 }: CommentsType) => {
 	const { image, username } = user
 	const { png, webp } = image
-	const { comments, handleComments, handleSubmit } = useHandleComments()
+	const { comments, handleComments, handleSubmit } = useHandleComments(5)
 	const { shouldShowTextarea, showTextarea } = useNewReply()
 
 	return (
@@ -28,15 +29,19 @@ export const Comments = ({
 				<p>{content}</p>
 				<p>score: {score}</p>
 				<p>{username}</p>
-        {index && <p>{index}</p>}
+				{index && <p>{index}</p>}
 			</>
 			<div>
 				<button onClick={shouldShowTextarea}>Reply</button>
 			</div>
-			{showTextarea && <NewComment index={index} isReply replyingTo={username} />}
+			{showTextarea && (
+				<NewComment index={index} isReply replyingTo={username} />
+			)}
 			<>
 				{replies &&
-					replies.map((reply, index) => <Replies index={index} key={reply.id} {...reply} />)}
+					replies.map((reply, index) => (
+						<Replies index={index} key={reply.id} {...reply} />
+					))}
 			</>
 		</div>
 	)

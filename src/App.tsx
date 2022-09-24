@@ -7,9 +7,10 @@ import { CommentsData, CommentsType } from './Types/Types'
 
 function App() {
 	const [commentsData, setCommentsData] = useState<CommentsData>()
-	const { data, fetching, request } = useFetch() as useFetchReturn<CommentsData>
+	const [update, setUpdate] = useState(false)
 
 	const { getLocalStorageValues, setLocalStorageValues } = useLocalStorage()
+	const { data, fetching, request } = useFetch() as useFetchReturn<CommentsData>
 
 	useEffect(() => {
 		const localStorageValues: CommentsData | null =
@@ -19,18 +20,24 @@ function App() {
 
 		request({ url: 'data.json' })
 
-		if (!fetching) {
+		if (!fetching && !localStorageValues) {
 			setCommentsData(data)
 			setLocalStorageValues('commentsData', data)
 		}
-	}, [fetching])
+    console.log('oi')
+	}, [fetching, update])
+
+	function handleUpdate() {
+		console.log('handleUpdate')
+    setUpdate(!update)
+	}
 
 	return (
 		<>
 			{commentsData?.comments.map((comment: CommentsType, index: number) => {
 				return <Comments index={index} key={comment.id} {...comment} />
 			})}
-			<NewComment />
+			<NewComment handleUpdate={handleUpdate} />
 		</>
 	)
 }

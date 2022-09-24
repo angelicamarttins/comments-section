@@ -5,13 +5,19 @@ type NewCommentProps = {
 	index?: number
 	isReply?: boolean
 	replyingTo?: string
+	handleUpdate: () => void
 }
 
-export const NewComment = ({ index, isReply, replyingTo }: NewCommentProps) => {
-	const { comments, handleComments, handleSubmit } = useHandleComments()
+export const NewComment = ({
+	index,
+	isReply,
+	replyingTo,
+	handleUpdate
+}: NewCommentProps) => {
+	const { comments, handleComments, handleSubmit } = useHandleComments(5)
 
 	useEffect(() => {
-		if (isReply) handleComments(`@${replyingTo}`)
+		if (isReply && replyingTo) handleComments(`@${replyingTo}, `)
 	}, [])
 
 	return (
@@ -30,9 +36,10 @@ export const NewComment = ({ index, isReply, replyingTo }: NewCommentProps) => {
 			/>
 			<p>{comments}</p>
 			{index && <p>{index}</p>}
-			<button onClick={() => handleSubmit(index, true, 'angelica')}>
+			<button onClick={() => handleSubmit(true, index, replyingTo)}>
 				SEND
 			</button>
+			<button onClick={() => handleUpdate()}>TESTE</button>
 		</div>
 	)
 }
