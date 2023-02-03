@@ -1,58 +1,56 @@
-import { useState } from 'react'
-import useLocalStorage from './useLocalStorage'
-import { CommentsData, CommentsType } from '../Types/Types'
+import { Dispatch, SetStateAction, useState } from 'react'
 
-export const useHandleComments = (initialId: number) => {
-	const {
-		hasLocalStorageValues,
-		getLocalStorageValues,
-		setLocalStorageValues
-	} = useLocalStorage()
-
-	const [idCount, setIdCount] = useState(
-		hasLocalStorageValues('idCount', initialId)
-	)
-	const [comments, setComments] = useState('')
-	const commentsData: CommentsData | null =
-		getLocalStorageValues('commentsData')
-
-	function handleComments(inputValue: string) {
-		setComments(inputValue)
-	}
-
-	function handleSubmit(
-		isReply: boolean,
-		index: number = 0,
-		replyingTo?: string
-	) {
-		setIdCount(idCount + 1)
-
-		const newComment: CommentsType = {
-			id: idCount,
-			content: comments,
-			createdAt: 'Today',
-			score: 0,
-			...(isReply && { replyingTo }),
-			user: {
-				image: {
-					png: './assets/images/avatars/image-juliusomo.png',
-					webp: './assets/images/avatars/image-juliusomo.webp'
-				},
-				username: 'juliusomo'
-			}
-		}
-
-		!isReply && commentsData
-			? commentsData.comments.push(newComment)
-			: commentsData?.comments?.[index]?.replies?.push(newComment)
-
-		setLocalStorageValues('commentsData', commentsData)
-
-		setComments('')
-	}
-	setLocalStorageValues('idCount', idCount)
-
-	return { comments, idCount, handleComments, handleSubmit }
+type useHandleCommentsReturn = {
+	comment?: string
+	handleComment: Dispatch<SetStateAction<string>>
 }
 
-export default useHandleComments
+export const useHandleComments = (
+	inputValue: string
+): useHandleCommentsReturn => {
+	const [comment, setComment] = useState<string>(inputValue)
+
+	return { comment, handleComment: setComment }
+}
+
+// const { getLocalStorageValues, setLocalStorageValues } = useLocalStorage()
+
+// const commentsData: CommentsData | null =
+// 	getLocalStorageValues('commentsData')
+
+// type handleSubmitProps = {
+// 	level: number
+// 	commentId?: number
+// 	replyingTo?: string
+// }
+
+// function handleSubmit({ level, commentId, replyingTo }: handleSubmitProps) {
+// 	const newComment: CommentsType = {
+// 		level,
+// 		id: uuidv4(),
+// 		content: comment,
+// 		createdAt: 'Today',
+// 		score: 0,
+// 		...(replyingTo && { replyingTo }),
+// 		user: {
+// 			image: {
+// 				png: './assets/images/avatars/image-juliusomo.png',
+// 				webp: './assets/images/avatars/image-juliusomo.webp'
+// 			},
+// 			username: 'juliusomo'
+// 		}
+// 	}
+// 	console.log('hook', level)
+// 	level === 2 && commentId !== undefined
+// 		? commentsData?.comments?.[commentId].replies?.push(newComment)
+// 		: commentsData?.comments?.push(newComment)
+
+// 	setLocalStorageValues('commentsData', commentsData)
+// 	getLocalStorageValues('commentsData')
+// 	setComment('')
+// 	console.log('oi', {
+// 		level,
+// 		commentId,
+// 		replyingTo
+// 	})
+// }

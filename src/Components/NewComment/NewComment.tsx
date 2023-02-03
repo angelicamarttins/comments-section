@@ -1,29 +1,32 @@
-import { useEffect } from 'react'
-import useHandleComments from '../../Hooks/useHandleComments'
+import { useCallback, useEffect } from 'react'
+
+import { CommentsType } from '../../Types'
+import { useHandleComments } from '../../Hooks'
+import { useHandleSubmit } from '../../Hooks/useHandleSubmit'
 
 type NewCommentProps = {
-	index?: number
-	isReply?: boolean
+	id?: string
+	level?: number
 	replyingTo?: string
-	handleUpdate: () => void
+	replies?: CommentsType[]
 }
 
 export const NewComment = ({
-	index,
-	isReply,
+	id,
+	level = 0,
 	replyingTo,
-	handleUpdate
+	replies
 }: NewCommentProps) => {
-	const { comments, handleComments, handleSubmit } = useHandleComments(5)
-
-	useEffect(() => {
-		if (isReply && replyingTo) handleComments(`@${replyingTo}, `)
-	}, [])
+	const { comment, handleComment } = useHandleComments(
+		replyingTo ? `@${replyingTo} ` : ''
+	)
+	const { onSubmit } = useHandleSubmit({ level, replyingTo })
+	console.log(id)
 
 	return (
 		<div
 			style={{
-				border: '1px solid red',
+				border: '1px solid yellow',
 				padding: '1rem',
 				display: 'flex',
 				alignItems: 'center',
@@ -31,15 +34,13 @@ export const NewComment = ({
 			}}
 		>
 			<textarea
-				onChange={({ target }) => handleComments(target.value)}
-				value={comments}
+				onChange={({ target }) => handleComment(target.value)}
+				value={comment}
 			/>
-			<p>{comments}</p>
-			{index && <p>{index}</p>}
-			<button onClick={() => handleSubmit(true, index, replyingTo)}>
+			<p>{comment}</p>
+			<button onClick={({ currentTarget }) => onSubmit(currentTarget.value)}>
 				SEND
 			</button>
-			<button onClick={() => handleUpdate()}>TESTE</button>
 		</div>
 	)
 }

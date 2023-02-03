@@ -1,10 +1,12 @@
-import { useCallback, useState } from 'react'
+import { Dispatch, SetStateAction, useCallback, useState } from 'react'
+
 import useLocalStorage from './useLocalStorage'
 
 export type useFetchReturn<T> = {
 	data?: T
-  fetching: boolean
+	fetching: boolean
 	request: ({ url, options }: requestProps) => Promise<void>
+  setData: Dispatch<SetStateAction<undefined>>
 }
 
 type requestProps = {
@@ -19,7 +21,7 @@ type optionsData = {
 
 export const useFetch = <T>(): useFetchReturn<T> => {
 	const [data, setData] = useState()
-  const [fetching, setFetching] = useState(true)
+	const [fetching, setFetching] = useState(true)
 	const [responseStatus, setResponseStatus] = useState<number>()
 
 	const request = useCallback(
@@ -31,7 +33,7 @@ export const useFetch = <T>(): useFetchReturn<T> => {
 				const json = await response.json()
 				setData(json)
 
-        data !== null && setFetching(false)
+				data ?? setFetching(false)
 			} catch (error) {
 				throw new Error(`Error: ${responseStatus}`)
 			}
@@ -39,5 +41,5 @@ export const useFetch = <T>(): useFetchReturn<T> => {
 		[data]
 	)
 
-	return { data, fetching, request }
+	return { data, fetching, request, setData }
 }

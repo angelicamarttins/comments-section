@@ -1,12 +1,13 @@
 export type CommentsType = {
-	id: number
-	index?: number
+	level: number
+  id?: string
 	content: string
 	createdAt: string
 	score: number
 	user: UserType
 	replyingTo?: string
 	replies?: CommentsType[]
+  update?: () => void
 }
 
 export type UserType = {

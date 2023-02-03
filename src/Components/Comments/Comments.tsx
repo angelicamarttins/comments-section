@@ -1,27 +1,27 @@
-import { useEffect, useState } from 'react'
-import useHandleComments from '../../Hooks/useHandleComments'
-import { useNewReply } from '../../Hooks/useNewReply'
-
 import { CommentsType } from '../../Types/Types'
-import { NewComment } from '../NewComment/NewComment'
-import { Replies } from '../Replies/Replies'
+import { NewComment } from '../NewComment'
+import { useNewReply } from '../../Hooks'
 
 export const Comments = ({
 	content,
 	createdAt,
 	id,
-	index,
+	level,
 	replies,
 	score,
-	user
+	user,
+	update
 }: CommentsType) => {
 	const { image, username } = user
 	const { png, webp } = image
-	const { comments, handleComments, handleSubmit } = useHandleComments(5)
 	const { shouldShowTextarea, showTextarea } = useNewReply()
 
+	const hasReplies = replies && replies?.length > 0
+
+	const commentStyle = { border: '1px solid red', margin: `.5rem ${level}rem` }
+
 	return (
-		<div style={{ border: '1px solid red', marginBottom: '.5rem' }}>
+		<div style={commentStyle}>
 			<>
 				<img src={webp} alt={`${username} photo`} />
 				<p>id: {id}</p>
@@ -29,19 +29,16 @@ export const Comments = ({
 				<p>{content}</p>
 				<p>score: {score}</p>
 				<p>{username}</p>
-				{index && <p>{index}</p>}
 			</>
 			<div>
 				<button onClick={shouldShowTextarea}>Reply</button>
 			</div>
 			{showTextarea && (
-				<NewComment index={index} isReply replyingTo={username} />
+				<NewComment id={id} level={1} replyingTo={username} replies={replies} />
 			)}
 			<>
-				{replies &&
-					replies.map((reply, index) => (
-						<Replies index={index} key={reply.id} {...reply} />
-					))}
+				{hasReplies &&
+					replies?.map((reply) => <Comments key={reply.id} {...reply} />)}
 			</>
 		</div>
 	)
