@@ -11,8 +11,8 @@ type containerProps = {
 export const Container = ({ commentsData }: containerProps) => {
 	return (
 		<>
-			{commentsData?.comments.map((comment) => {
-				return <Comments key={comment.id} {...comment} />
+			{commentsData?.comments.map((comment, index) => {
+				return <Comments key={comment.id} index={index} {...comment} />
 			})}
 			<NewComment />
 		</>

@@ -7,7 +7,6 @@ export type CommentsType = {
 	user: UserType
 	replyingTo?: string
 	replies?: CommentsType[]
-  update?: () => void
 }
 
 export type UserType = {

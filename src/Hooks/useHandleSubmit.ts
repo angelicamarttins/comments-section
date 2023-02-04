@@ -1,10 +1,12 @@
 import { FormEvent, useCallback, useMemo } from 'react'
 
+import { CommentsData } from '../Types'
 import { useLocalStorage } from './useLocalStorage'
 import { v4 as uuidv4 } from 'uuid'
 
 type UseHandleSubmitProps = {
 	comment: string
+	index?: number
 	level: number
 	replyingTo?: string
 }
@@ -14,15 +16,12 @@ type UseHandleSubmitReturn = {
 }
 
 export function useHandleSubmit({
+	index,
 	comment,
 	level,
 	replyingTo
 }: UseHandleSubmitProps): UseHandleSubmitReturn {
-	const {
-		hasLocalStorageValues,
-		getLocalStorageValues,
-		setLocalStorageValues
-	} = useLocalStorage()
+	const { getLocalStorageValues, setLocalStorageValues } = useLocalStorage()
 
 	const baseComment = useMemo(() => {
 		return {
@@ -46,7 +45,13 @@ export function useHandleSubmit({
 		(event: FormEvent<HTMLFormElement>) => {
 			event.preventDefault()
 
-			// hasLocalStorageValues('test') || getLocalStorageValues('commentsData')
+			const commensData = getLocalStorageValues<CommentsData>('commentsData')
+
+			level && index !== undefined
+				? commensData?.comments?.[index].replies?.push(baseComment)
+				: commensData?.comments?.push(baseComment)
+
+			setLocalStorageValues('commentsData', commensData)
 		},
 		[comment]
 	)

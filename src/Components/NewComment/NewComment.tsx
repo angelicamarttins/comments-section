@@ -5,14 +5,14 @@ import { useHandleComments } from '../../Hooks'
 import { useHandleSubmit } from '../../Hooks/useHandleSubmit'
 
 type NewCommentProps = {
-	id?: string
+	index?: number
 	level?: number
 	replyingTo?: string
 	replies?: CommentsType[]
 }
 
 export const NewComment = ({
-	id,
+	index,
 	level = 0,
 	replyingTo,
 	replies
@@ -20,8 +20,8 @@ export const NewComment = ({
 	const { comment, handleComment } = useHandleComments(
 		replyingTo ? `@${replyingTo} ` : ''
 	)
-	const { onSubmit } = useHandleSubmit({ comment, level, replyingTo })
-	console.log(id)
+	const { onSubmit } = useHandleSubmit({ index, comment, level, replyingTo })
+	console.log(index)
 
 	return (
 		<div
@@ -39,7 +39,7 @@ export const NewComment = ({
 					value={comment}
 				/>
 				<p>{comment}</p>
-				<button type='submit'>SEND</button>
+				<button type="submit">SEND</button>
 			</form>
 		</div>
 	)

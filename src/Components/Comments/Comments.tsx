@@ -2,16 +2,20 @@ import { CommentsType } from '../../Types/Types'
 import { NewComment } from '../NewComment'
 import { useNewReply } from '../../Hooks'
 
+type CommentsProps = CommentsType & {
+	index?: number
+}
+
 export const Comments = ({
 	content,
 	createdAt,
 	id,
+	index,
 	level,
 	replies,
 	score,
 	user,
-	update
-}: CommentsType) => {
+}: CommentsProps) => {
 	const { image, username } = user
 	const { png, webp } = image
 	const { shouldShowTextarea, showTextarea } = useNewReply()
@@ -34,11 +38,11 @@ export const Comments = ({
 				<button onClick={shouldShowTextarea}>Reply</button>
 			</div>
 			{showTextarea && (
-				<NewComment id={id} level={1} replyingTo={username} replies={replies} />
+				<NewComment index={index} level={1} replyingTo={username} replies={replies} />
 			)}
 			<>
 				{hasReplies &&
-					replies?.map((reply) => <Comments key={reply.id} {...reply} />)}
+					replies?.map((reply) => <Comments key={reply.id} index={index} {...reply} />)}
 			</>
 		</div>
 	)
