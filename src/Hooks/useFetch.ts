@@ -1,12 +1,9 @@
-import { Dispatch, SetStateAction, useCallback, useState } from 'react'
-
-import useLocalStorage from './useLocalStorage'
+import { useCallback, useState } from 'react'
 
 export type useFetchReturn<T> = {
 	data?: T
 	fetching: boolean
 	request: ({ url, options }: requestProps) => Promise<void>
-  setData: Dispatch<SetStateAction<undefined>>
 }
 
 type requestProps = {
@@ -19,7 +16,7 @@ type optionsData = {
 	headers?: Headers
 }
 
-export const useFetch = <T>(): useFetchReturn<T> => {
+export function useFetch<T>(): useFetchReturn<T> {
 	const [data, setData] = useState()
 	const [fetching, setFetching] = useState(true)
 	const [responseStatus, setResponseStatus] = useState<number>()
@@ -41,5 +38,5 @@ export const useFetch = <T>(): useFetchReturn<T> => {
 		[data]
 	)
 
-	return { data, fetching, request, setData }
+	return { data, fetching, request }
 }

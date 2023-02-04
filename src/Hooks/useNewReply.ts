@@ -1,6 +1,11 @@
 import { useState } from 'react'
 
-export const useNewReply = () => {
+type UseNewReplyReturn = {
+	showTextarea: boolean
+	shouldShowTextarea: () => void
+}
+
+export function useNewReply(): UseNewReplyReturn {
 	const [showTextarea, setShowTextarea] = useState(false)
 
 	function shouldShowTextarea() {

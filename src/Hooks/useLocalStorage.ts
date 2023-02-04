@@ -1,8 +1,10 @@
-export default function useLocalStorage() {
-	function setLocalStorageValues<T>(key: string, value: T) {
-		window.localStorage.setItem(key, JSON.stringify(value))
-	}
+type UseHandleLocalStorageReturn = {
+	getLocalStorageValues: <T>(key: string) => T | null
+	hasLocalStorageValues: <T>(key: string) => T | null
+	setLocalStorageValues: <T>(key: string, value: T) => void
+}
 
+export function useLocalStorage(): UseHandleLocalStorageReturn {
 	function getLocalStorageValues<T>(key: string): T | null {
 		const getLocalStorage = window.localStorage.getItem(key)
 
@@ -10,14 +12,11 @@ export default function useLocalStorage() {
 	}
 
 	function hasLocalStorageValues<T>(key: string): T | null {
-		// if (value) {
-		// 	setLocalStorageValues(key, value)
-		// 	return value
-		// }
+		return getLocalStorageValues(key)
+	}
 
-		const localStorageValues: T | null = getLocalStorageValues(key)
-
-		return localStorageValues
+	function setLocalStorageValues<T>(key: string, value: T) {
+		window.localStorage.setItem(key, JSON.stringify(value))
 	}
 
 	return { getLocalStorageValues, hasLocalStorageValues, setLocalStorageValues }

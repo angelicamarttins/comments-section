@@ -1,6 +1,6 @@
 import { FormEvent, useCallback, useMemo } from 'react'
 
-import useLocalStorage from './useLocalStorage'
+import { useLocalStorage } from './useLocalStorage'
 import { v4 as uuidv4 } from 'uuid'
 
 type UseHandleSubmitProps = {
@@ -13,11 +13,11 @@ type UseHandleSubmitReturn = {
 	onSubmit: (event: FormEvent<HTMLFormElement>) => void
 }
 
-export const useHandleSubmit = ({
+export function useHandleSubmit({
 	comment,
 	level,
 	replyingTo
-}: UseHandleSubmitProps): UseHandleSubmitReturn => {
+}: UseHandleSubmitProps): UseHandleSubmitReturn {
 	const {
 		hasLocalStorageValues,
 		getLocalStorageValues,

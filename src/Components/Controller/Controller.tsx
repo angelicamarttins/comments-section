@@ -3,13 +3,12 @@ import { useFetch, useFetchReturn } from '../../Hooks/useFetch'
 
 import { CommentsData } from '../../Types'
 import { Container } from '../Container'
-import useLocalStorage from '../../Hooks/useLocalStorage'
+import { useLocalStorage } from '../../Hooks'
 
 export const Controller = () => {
 	const { getLocalStorageValues, setLocalStorageValues } = useLocalStorage()
 	const [commentsData, setCommentsData] = useState<CommentsData>()
-	const { data, fetching, request } =
-		useFetch() as useFetchReturn<CommentsData>
+	const { data, fetching, request } = useFetch() as useFetchReturn<CommentsData>
 
 	useEffect(() => {
 		const localStorageValues: CommentsData | null =

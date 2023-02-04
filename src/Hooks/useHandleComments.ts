@@ -5,9 +5,9 @@ type useHandleCommentsReturn = {
 	handleComment: Dispatch<SetStateAction<string>>
 }
 
-export const useHandleComments = (
+export function useHandleComments(
 	inputValue: string
-): useHandleCommentsReturn => {
+): useHandleCommentsReturn {
 	const [comment, setComment] = useState<string>(inputValue)
 
 	return { comment, handleComment: setComment }
