@@ -1,21 +1,55 @@
-import { useCallback } from 'react'
+import { FormEvent, useCallback, useMemo } from 'react'
+
+import useLocalStorage from './useLocalStorage'
+import { v4 as uuidv4 } from 'uuid'
 
 type UseHandleSubmitProps = {
+	comment: string
 	level: number
 	replyingTo?: string
 }
 
 type UseHandleSubmitReturn = {
-	onSubmit: (comment: string) => void
+	onSubmit: (event: FormEvent<HTMLFormElement>) => void
 }
 
 export const useHandleSubmit = ({
+	comment,
 	level,
 	replyingTo
 }: UseHandleSubmitProps): UseHandleSubmitReturn => {
-	const onSubmit = useCallback((comment: string) => {
-		console.log(comment)
-	}, [])
+	const {
+		hasLocalStorageValues,
+		getLocalStorageValues,
+		setLocalStorageValues
+	} = useLocalStorage()
+
+	const baseComment = useMemo(() => {
+		return {
+			level,
+			id: uuidv4(),
+			content: comment,
+			createdAt: 'Today',
+			score: 0,
+			...(replyingTo && { replyingTo }),
+			user: {
+				image: {
+					png: './assets/images/avatars/image-juliusomo.png',
+					webp: './assets/images/avatars/image-juliusomo.webp'
+				},
+				username: 'juliusomo'
+			}
+		}
+	}, [comment])
+
+	const onSubmit = useCallback(
+		(event: FormEvent<HTMLFormElement>) => {
+			event.preventDefault()
+
+			// hasLocalStorageValues('test') || getLocalStorageValues('commentsData')
+		},
+		[comment]
+	)
 
 	return { onSubmit }
 }

@@ -20,7 +20,7 @@ export const NewComment = ({
 	const { comment, handleComment } = useHandleComments(
 		replyingTo ? `@${replyingTo} ` : ''
 	)
-	const { onSubmit } = useHandleSubmit({ level, replyingTo })
+	const { onSubmit } = useHandleSubmit({ comment, level, replyingTo })
 	console.log(id)
 
 	return (
@@ -33,14 +33,14 @@ export const NewComment = ({
 				justifyContent: 'space-between'
 			}}
 		>
-			<textarea
-				onChange={({ target }) => handleComment(target.value)}
-				value={comment}
-			/>
-			<p>{comment}</p>
-			<button onClick={({ currentTarget }) => onSubmit(currentTarget.value)}>
-				SEND
-			</button>
+			<form onSubmit={onSubmit}>
+				<textarea
+					onChange={({ target }) => handleComment(target.value)}
+					value={comment}
+				/>
+				<p>{comment}</p>
+				<button type='submit'>SEND</button>
+			</form>
 		</div>
 	)
 }

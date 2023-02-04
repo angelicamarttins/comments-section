@@ -8,7 +8,7 @@ import useLocalStorage from '../../Hooks/useLocalStorage'
 export const Controller = () => {
 	const { getLocalStorageValues, setLocalStorageValues } = useLocalStorage()
 	const [commentsData, setCommentsData] = useState<CommentsData>()
-	const { data, fetching, request, setData } =
+	const { data, fetching, request } =
 		useFetch() as useFetchReturn<CommentsData>
 
 	useEffect(() => {
