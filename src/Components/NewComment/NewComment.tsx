@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react'
+import { Dispatch, SetStateAction, useCallback, useEffect } from 'react'
 
 import { CommentsType } from '../../Types'
 import { useHandleComments } from '../../Hooks'
@@ -8,20 +8,29 @@ type NewCommentProps = {
 	index?: number
 	level?: number
 	replyingTo?: string
-	replies?: CommentsType[]
+	onShowTextarea?: () => void
+	onUpdate: Dispatch<SetStateAction<boolean>>
 }
 
 export const NewComment = ({
 	index,
 	level = 0,
 	replyingTo,
-	replies
+	onShowTextarea,
+	onUpdate
 }: NewCommentProps) => {
 	const { comment, handleComment } = useHandleComments(
 		replyingTo ? `@${replyingTo} ` : ''
 	)
-	const { onSubmit } = useHandleSubmit({ index, comment, level, replyingTo })
-	console.log(index)
+	const { onSubmit } = useHandleSubmit({
+		index,
+		comment,
+		level,
+		replyingTo,
+		handleComment,
+		onShowTextarea,
+		onUpdate
+	})
 
 	return (
 		<div
@@ -33,13 +42,16 @@ export const NewComment = ({
 				justifyContent: 'space-between'
 			}}
 		>
-			<form onSubmit={onSubmit}>
+			<form id="newComment" onSubmit={onSubmit}>
 				<textarea
+					autoFocus
 					onChange={({ target }) => handleComment(target.value)}
 					value={comment}
 				/>
 				<p>{comment}</p>
-				<button type="submit">SEND</button>
+				<button id="newComment" type="submit">
+					SEND
+				</button>
 			</form>
 		</div>
 	)

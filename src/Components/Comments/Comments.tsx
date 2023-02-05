@@ -1,9 +1,12 @@
+import { Dispatch, SetStateAction } from 'react'
+import { useShowTextarea, useUpdateScore } from '../../Hooks'
+
 import { CommentsType } from '../../Types/Types'
 import { NewComment } from '../NewComment'
-import { useNewReply } from '../../Hooks'
 
 type CommentsProps = CommentsType & {
 	index?: number
+	onUpdate: Dispatch<SetStateAction<boolean>>
 }
 
 export const Comments = ({
@@ -15,10 +18,15 @@ export const Comments = ({
 	replies,
 	score,
 	user,
+	onUpdate
 }: CommentsProps) => {
 	const { image, username } = user
 	const { png, webp } = image
-	const { shouldShowTextarea, showTextarea } = useNewReply()
+	const { updatedScore, onDecrementScore, onIncrementScore } = useUpdateScore({
+		id,
+		score
+	})
+	const { showTextarea, onShowTextarea } = useShowTextarea()
 
 	const hasReplies = replies && replies?.length > 0
 
@@ -31,18 +39,41 @@ export const Comments = ({
 				<p>id: {id}</p>
 				<p>Created at: {createdAt}</p>
 				<p>{content}</p>
-				<p>score: {score}</p>
 				<p>{username}</p>
 			</>
 			<div>
-				<button onClick={shouldShowTextarea}>Reply</button>
+				<button onClick={onShowTextarea}>Reply</button>
+			</div>
+			<div
+				style={{
+					margin: '10px 0',
+					display: 'flex',
+					alignContent: 'center'
+				}}
+			>
+				<button onClick={onDecrementScore}>-</button>
+				<p>{updatedScore}</p>
+				<button onClick={onIncrementScore}>+</button>
 			</div>
 			{showTextarea && (
-				<NewComment index={index} level={1} replyingTo={username} replies={replies} />
+				<NewComment
+					index={index}
+					level={1}
+					replyingTo={username}
+					onUpdate={onUpdate}
+					onShowTextarea={onShowTextarea}
+				/>
 			)}
 			<>
 				{hasReplies &&
-					replies?.map((reply) => <Comments key={reply.id} index={index} {...reply} />)}
+					replies?.map((reply) => (
+						<Comments
+							key={reply.id}
+							index={index}
+							onUpdate={onUpdate}
+							{...reply}
+						/>
+					))}
 			</>
 		</div>
 	)

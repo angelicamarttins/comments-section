@@ -1,6 +1,13 @@
-import { FormEvent, useCallback, useMemo } from 'react'
+import {
+	Dispatch,
+	FormEvent,
+	SetStateAction,
+	useCallback,
+	useMemo
+} from 'react'
 
 import { CommentsData } from '../Types'
+import { useFindComment } from './useFindComment'
 import { useLocalStorage } from './useLocalStorage'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -9,6 +16,9 @@ type UseHandleSubmitProps = {
 	index?: number
 	level: number
 	replyingTo?: string
+	handleComment: Dispatch<SetStateAction<string>>
+	onShowTextarea?: () => void
+	onUpdate: Dispatch<SetStateAction<boolean>>
 }
 
 type UseHandleSubmitReturn = {
@@ -19,8 +29,13 @@ export function useHandleSubmit({
 	index,
 	comment,
 	level,
-	replyingTo
+	replyingTo,
+	handleComment,
+	onShowTextarea,
+	onUpdate
 }: UseHandleSubmitProps): UseHandleSubmitReturn {
+	// const a = useFindComment({ index, level })
+	console.log('sb')
 	const { getLocalStorageValues, setLocalStorageValues } = useLocalStorage()
 
 	const baseComment = useMemo(() => {
@@ -52,6 +67,10 @@ export function useHandleSubmit({
 				: commensData?.comments?.push(baseComment)
 
 			setLocalStorageValues('commentsData', commensData)
+
+			onShowTextarea?.()
+			handleComment('')
+			onUpdate((prevState) => !prevState)
 		},
 		[comment]
 	)
