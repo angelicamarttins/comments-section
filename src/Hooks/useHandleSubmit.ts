@@ -7,8 +7,8 @@ import {
 } from 'react'
 
 import { CommentsData } from '../Types'
-import { useFindComment } from './useFindComment'
 import { useLocalStorage } from './useLocalStorage'
+import { useUpdateComment } from './useUpdateComment'
 import { v4 as uuidv4 } from 'uuid'
 
 type UseHandleSubmitProps = {
@@ -34,7 +34,6 @@ export function useHandleSubmit({
 	onShowTextarea,
 	onUpdate
 }: UseHandleSubmitProps): UseHandleSubmitReturn {
-	// const a = useFindComment({ index, level })
 	console.log('sb')
 	const { getLocalStorageValues, setLocalStorageValues } = useLocalStorage()
 
@@ -46,6 +45,7 @@ export function useHandleSubmit({
 			createdAt: 'Today',
 			score: 0,
 			...(replyingTo && { replyingTo }),
+			replies: [],
 			user: {
 				image: {
 					png: './assets/images/avatars/image-juliusomo.png',

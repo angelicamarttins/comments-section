@@ -5,7 +5,7 @@ import { CommentsType } from '../../Types/Types'
 import { NewComment } from '../NewComment'
 
 type CommentsProps = CommentsType & {
-	index?: number
+	index: number
 	onUpdate: Dispatch<SetStateAction<boolean>>
 }
 
@@ -22,10 +22,19 @@ export const Comments = ({
 }: CommentsProps) => {
 	const { image, username } = user
 	const { png, webp } = image
-	const { updatedScore, onDecrementScore, onIncrementScore } = useUpdateScore({
+	const {
+		didUserDecrementVote,
+		didUserIncrementVote,
+		updatedScore,
+		onDecrementScore,
+		onIncrementScore
+	} = useUpdateScore({
 		id,
+		index,
+		level,
 		score
 	})
+
 	const { showTextarea, onShowTextarea } = useShowTextarea()
 
 	const hasReplies = replies && replies?.length > 0
@@ -51,9 +60,13 @@ export const Comments = ({
 					alignContent: 'center'
 				}}
 			>
-				<button onClick={onDecrementScore}>-</button>
+				<button disabled={didUserDecrementVote} onClick={onDecrementScore}>
+					-
+				</button>
 				<p>{updatedScore}</p>
-				<button onClick={onIncrementScore}>+</button>
+				<button disabled={didUserIncrementVote} onClick={onIncrementScore}>
+					+
+				</button>
 			</div>
 			{showTextarea && (
 				<NewComment
