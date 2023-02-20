@@ -1,6 +1,6 @@
 export type CommentsType = {
 	level: number
-  id?: string
+	id?: string
 	content: string
 	createdAt: string
 	score: number
@@ -22,4 +22,9 @@ export type ImageType = {
 export type CommentsData = {
 	currentUser: UserType
 	comments: CommentsType[]
+}
+
+export type UpdatedProp = {
+	content?: string
+	score?: number
 }

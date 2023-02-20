@@ -58,7 +58,7 @@ export function useUpdateScore({
 				id,
 				index,
 				level,
-				updatedScore
+				updatedProp: { score: updatedScore }
 			})
 		}
 	}, [didUserVote, updatedScore])

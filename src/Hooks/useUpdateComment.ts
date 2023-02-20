@@ -1,5 +1,5 @@
-import { CommentsData, CommentsType } from '../Types'
-import { useCallback, useState } from 'react'
+import { CommentsData, CommentsType, UpdatedProp } from '../Types'
+import { useCallback, useEffect, useState } from 'react'
 
 import { useLocalStorage } from './useLocalStorage'
 
@@ -7,7 +7,7 @@ type UpdateCommentProps = {
 	id?: string
 	index: number
 	level: number
-	updatedProp: string | number // Transformar em objeto só para destruturar sem precisar saber se é comment ou score
+	updatedProp: UpdatedProp
 }
 
 type PrepareCommentsData = UpdateCommentProps & {
@@ -16,12 +16,12 @@ type PrepareCommentsData = UpdateCommentProps & {
 }
 
 type UseUpdateCommentReturn = {
-	updateComment: ({ updatedProp, id }: UpdateCommentProps) => void
+	updateComment: ({ id, index, level, updatedProp }: UpdateCommentProps) => void
 }
 
 export function useUpdateComment(): UseUpdateCommentReturn {
 	const { getLocalStorageValues } = useLocalStorage()
-	const newComments: CommentsType[] = []
+	const [updatedComments, setUpdatedComments] = useState<CommentsType[]>([])
 
 	function prepareComments({
 		id,
@@ -30,27 +30,27 @@ export function useUpdateComment(): UseUpdateCommentReturn {
 		updatedProp
 	}: PrepareCommentsData) {
 		if (!level) {
-			const a = comments.map((comment) =>
-				comment.id === id ? { ...comment, content: 'a' } : comment
+			const newComments = comments.map((comment) =>
+				comment.id === id ? { ...comment, ...updatedProp } : comment
 			)
 
-			newComments.push(...a)
+			setUpdatedComments([...newComments])
 		}
 
 		if (level) {
-			const a = comments.map((comment) => {
-				const b = comment.replies?.length
+			const newComments = comments.map((comment) => {
+				const newReplies = comment.replies?.length
 					? comment.replies?.map((reply) =>
-							reply.id === id ? { ...reply, content: 'b' } : reply
+							reply.id === id ? { ...reply, ...updatedProp } : reply
 					  )
 					: []
 
-				return { ...comment, replies: b }
+				return { ...comment, replies: newReplies }
 			})
-			newComments.push(...a)
-		}
 
-		return newComments
+			setUpdatedComments([...newComments])
+		}
+		return updatedComments
 	}
 
 	const updateComment = useCallback(
@@ -71,11 +71,15 @@ export function useUpdateComment(): UseUpdateCommentReturn {
 						updatedProp
 					})
 				}
+				console.log(res)
 			}
 		},
-		[]
+		[updatedComments]
 	)
 
+	useEffect(() => {
+		console.log(updatedComments)
+	}, [updatedComments])
+	// Na função updateComments, é melhor enviar o commentsData completo para retorná-lo e aqui dentro do effect chamar o setLocalStorage.it
 	return { updateComment }
 }
-7
