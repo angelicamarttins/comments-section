@@ -46,6 +46,7 @@ export function useHandleSubmit({
 			score: 0,
 			...(replyingTo && { replyingTo }),
 			replies: [],
+			votes: [],
 			user: {
 				image: {
 					png: './assets/images/avatars/image-juliusomo.png',

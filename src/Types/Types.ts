@@ -4,6 +4,7 @@ export type CommentsType = {
 	content: string
 	createdAt: string
 	score: number
+	votes: string[]
 	user: UserType
 	replyingTo?: string
 	replies?: CommentsType[]
