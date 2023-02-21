@@ -30,7 +30,6 @@ export const Comments = ({
 		onIncrementScore
 	} = useUpdateScore({
 		id,
-		index,
 		level,
 		score
 	})

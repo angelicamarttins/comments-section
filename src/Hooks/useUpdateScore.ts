@@ -6,7 +6,6 @@ import { useUpdateComment } from './useUpdateComment'
 
 type UseUpdateScoreProps = {
 	id?: string
-	index: number
 	level: number
 	score?: number
 }
@@ -21,7 +20,6 @@ type UseUpdateScoreReturn = {
 
 export function useUpdateScore({
 	id,
-	index,
 	level,
 	score
 }: UseUpdateScoreProps): UseUpdateScoreReturn {
@@ -56,7 +54,6 @@ export function useUpdateScore({
 		if (didUserVote) {
 			updateComment({
 				id,
-				index,
 				level,
 				updatedProp: { score: updatedScore }
 			})
