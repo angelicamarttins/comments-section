@@ -1,12 +1,11 @@
-import { CommentsData, CommentsType } from '../Types'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 
-import { useLocalStorage } from './useLocalStorage'
 import { useUpdateComment } from './useUpdateComment'
 
 type UseUpdateScoreProps = {
 	id?: string
 	level: number
+	originalScore: number
 	score?: number
 }
 
@@ -21,13 +20,13 @@ type UseUpdateScoreReturn = {
 export function useUpdateScore({
 	id,
 	level,
+	originalScore,
 	score
 }: UseUpdateScoreProps): UseUpdateScoreReturn {
 	const { updateComment } = useUpdateComment()
-	const { setLocalStorageValues } = useLocalStorage()
 
-	const [didUserVote, setDidUserVote] = useState(false)
-	const [maxVotes, minVotes] = [score! + 1, score! - 1]
+	const [hasUserVotedNow, setHasUserVotedNow] = useState(false)
+	const [maxVotes, minVotes] = [originalScore + 1, originalScore - 1]
 	const [updatedScore, setUpdatedScore] = useState(score || 0)
 
 	const didUserDecrementVote = useMemo(
@@ -42,23 +41,23 @@ export function useUpdateScore({
 
 	const onDecrementScore = useCallback(() => {
 		!didUserDecrementVote && setUpdatedScore((prevState) => prevState - 1)
-		setDidUserVote(true)
+		setHasUserVotedNow(true)
 	}, [updatedScore])
 
 	const onIncrementScore = useCallback(() => {
 		!didUserIncrementVote && setUpdatedScore((prevState) => prevState + 1)
-		setDidUserVote(true)
+		setHasUserVotedNow(true)
 	}, [updatedScore])
 
 	useEffect(() => {
-		if (didUserVote) {
+		if (hasUserVotedNow) {
 			updateComment({
 				id,
 				level,
 				updatedProp: { score: updatedScore }
 			})
 		}
-	}, [didUserVote, updatedScore])
+	}, [hasUserVotedNow, updatedScore])
 
 	return {
 		didUserDecrementVote,

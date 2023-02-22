@@ -1,13 +1,13 @@
 export type CommentsType = {
-	level: number
-	id?: string
 	content: string
 	createdAt: string
-	score: number
-	votes: string[]
-	user: UserType
-	replyingTo?: string
+	id?: string
+	level: number
+	originalScore: number
 	replies?: CommentsType[]
+	replyingTo?: string
+	score: number
+	user: UserType
 }
 
 export type UserType = {

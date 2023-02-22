@@ -15,6 +15,7 @@ export const Comments = ({
 	id,
 	index,
 	level,
+  originalScore,
 	replies,
 	score,
 	user,
@@ -31,6 +32,7 @@ export const Comments = ({
 	} = useUpdateScore({
 		id,
 		level,
+    originalScore,
 		score
 	})
 

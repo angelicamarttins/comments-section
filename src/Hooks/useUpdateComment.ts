@@ -9,10 +9,6 @@ type UpdateCommentProps = {
 	updatedProp: UpdatedProp
 }
 
-type PrepareCommentsData = UpdateCommentProps & {
-	commentsData: CommentsData
-}
-
 type UseUpdateCommentReturn = {
 	updateComment: ({ id, level, updatedProp }: UpdateCommentProps) => void
 }
@@ -20,15 +16,6 @@ type UseUpdateCommentReturn = {
 export function useUpdateComment(): UseUpdateCommentReturn {
 	const { getLocalStorageValues, setLocalStorageValues } = useLocalStorage()
 	const [updatedComments, setUpdatedComments] = useState<CommentsData>()
-
-	function prepareComments({
-		id,
-		level,
-		commentsData,
-		updatedProp
-	}: PrepareCommentsData) {
-		return updatedComments
-	}
 
 	const updateComment = useCallback(
 		({ id, level, updatedProp }: UpdateCommentProps) => {

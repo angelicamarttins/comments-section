@@ -9,20 +9,18 @@ type containerProps = {
 	onUpdate: Dispatch<SetStateAction<boolean>>
 }
 
-export const Container = ({ commentsData, onUpdate }: containerProps) => {
-	return (
-		<>
-			{commentsData?.comments.map((comment, index) => {
-				return (
-					<Comments
-						key={comment.id}
-						index={index}
-						onUpdate={onUpdate}
-						{...comment}
-					/>
-				)
-			})}
-			<NewComment onUpdate={onUpdate} />
-		</>
-	)
-}
+export const Container = ({ commentsData, onUpdate }: containerProps) => (
+	<>
+		{commentsData?.comments.map((comment, index) => {
+			return (
+				<Comments
+					key={comment.id}
+					index={index}
+					onUpdate={onUpdate}
+					{...comment}
+				/>
+			)
+		})}
+		<NewComment onUpdate={onUpdate} />
+	</>
+)

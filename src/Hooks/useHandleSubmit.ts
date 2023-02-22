@@ -43,10 +43,10 @@ export function useHandleSubmit({
 			id: uuidv4(),
 			content: comment,
 			createdAt: 'Today',
-			score: 0,
 			...(replyingTo && { replyingTo }),
 			replies: [],
-			votes: [],
+			originalScore: 0,
+			score: 0,
 			user: {
 				image: {
 					png: './assets/images/avatars/image-juliusomo.png',
