@@ -8,7 +8,7 @@ export function useLocalStorage(): UseHandleLocalStorageReturn {
 	function getLocalStorageValues<T>(key: string): T | null {
 		const getLocalStorage = window.localStorage.getItem(key)
 
-		return getLocalStorage ? JSON.parse(getLocalStorage) : getLocalStorage
+		return getLocalStorage && JSON.parse(getLocalStorage)
 	}
 
 	function hasLocalStorageValues<T>(key: string): T | null {

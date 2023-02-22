@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction, useEffect, useState } from 'react'
-import { useFetch, useFetchReturn, useLocalStorage } from '../../Hooks'
+import { UseFetchReturn, useFetch, useLocalStorage } from '../../Hooks'
 
 import { CommentsData } from '../../Types'
 
@@ -10,9 +10,10 @@ type UseControllerReturn = {
 
 export function useController(): UseControllerReturn {
 	const { getLocalStorageValues, setLocalStorageValues } = useLocalStorage()
+	const { data, fetching, request } = useFetch() as UseFetchReturn<CommentsData>
+
 	const [commentsData, setCommentsData] = useState<CommentsData>()
 	const [update, setUpdate] = useState(false)
-	const { data, fetching, request } = useFetch() as useFetchReturn<CommentsData>
 
 	useEffect(() => {
 		const localStorageValues: CommentsData | null =

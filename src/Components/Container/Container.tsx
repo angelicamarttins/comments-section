@@ -4,12 +4,12 @@ import { Comments } from '../Comments'
 import { CommentsData } from '../../Types'
 import { NewComment } from '../NewComment'
 
-type containerProps = {
+type ContainerProps = {
 	commentsData?: CommentsData
 	onUpdate: Dispatch<SetStateAction<boolean>>
 }
 
-export const Container = ({ commentsData, onUpdate }: containerProps) => (
+export const Container = ({ commentsData, onUpdate }: ContainerProps) => (
 	<>
 		{commentsData?.comments.map((comment, index) => {
 			return (

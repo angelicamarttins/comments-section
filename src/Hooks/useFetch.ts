@@ -1,28 +1,28 @@
 import { useCallback, useState } from 'react'
 
-export type useFetchReturn<T> = {
+export type UseFetchReturn<T> = {
 	data?: T
 	fetching: boolean
-	request: ({ url, options }: requestProps) => Promise<void>
+	request: ({ url, options }: RequestProps) => Promise<void>
 }
 
-type requestProps = {
+type RequestProps = {
 	url: string
-	options?: optionsData
+	options?: OptionsData
 }
 
-type optionsData = {
+type OptionsData = {
 	method: string
 	headers?: Headers
 }
 
-export function useFetch<T>(): useFetchReturn<T> {
+export function useFetch<T>(): UseFetchReturn<T> {
 	const [data, setData] = useState()
 	const [fetching, setFetching] = useState(true)
 	const [responseStatus, setResponseStatus] = useState<number>()
 
 	const request = useCallback(
-		async ({ url, options }: requestProps) => {
+		async ({ url, options }: RequestProps) => {
 			try {
 				const response = await fetch(url, options)
 				setResponseStatus(response.status)

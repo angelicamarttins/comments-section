@@ -8,7 +8,6 @@ import {
 
 import { CommentsData } from '../Types'
 import { useLocalStorage } from './useLocalStorage'
-import { useUpdateComment } from './useUpdateComment'
 import { v4 as uuidv4 } from 'uuid'
 
 type UseHandleSubmitProps = {
@@ -34,7 +33,6 @@ export function useHandleSubmit({
 	onShowTextarea,
 	onUpdate
 }: UseHandleSubmitProps): UseHandleSubmitReturn {
-	console.log('sb')
 	const { getLocalStorageValues, setLocalStorageValues } = useLocalStorage()
 
 	const baseComment = useMemo(() => {

@@ -1,6 +1,5 @@
-import { Dispatch, SetStateAction, useCallback, useEffect } from 'react'
+import { Dispatch, SetStateAction } from 'react'
 
-import { CommentsType } from '../../Types'
 import { useHandleComments } from '../../Hooks'
 import { useHandleSubmit } from '../../Hooks/useHandleSubmit'
 

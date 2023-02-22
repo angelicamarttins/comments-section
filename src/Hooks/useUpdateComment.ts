@@ -31,21 +31,21 @@ export function useUpdateComment(): UseUpdateCommentReturn {
 					)
 
 					setUpdatedComments({ currentUser, comments: newComments })
+
+					return
 				}
 
-				if (level) {
-					const newComments = comments.map((comment) => {
-						const newReplies = comment.replies?.length
-							? comment.replies?.map((reply) =>
-									reply.id === id ? { ...reply, ...updatedProp } : reply
-							  )
-							: []
+				const newComments = comments.map((comment) => {
+					const newReplies = comment.replies?.length
+						? comment.replies?.map((reply) =>
+								reply.id === id ? { ...reply, ...updatedProp } : reply
+						  )
+						: []
 
-						return { ...comment, replies: newReplies }
-					})
+					return { ...comment, replies: newReplies }
+				})
 
-					setUpdatedComments({ currentUser, comments: newComments })
-				}
+				setUpdatedComments({ currentUser, comments: newComments })
 			}
 		},
 		[updatedComments]

@@ -15,7 +15,7 @@ export const Comments = ({
 	id,
 	index,
 	level,
-  originalScore,
+	originalScore,
 	replies,
 	score,
 	user,
@@ -32,7 +32,7 @@ export const Comments = ({
 	} = useUpdateScore({
 		id,
 		level,
-    originalScore,
+		originalScore,
 		score
 	})
 
@@ -51,9 +51,11 @@ export const Comments = ({
 				<p>{content}</p>
 				<p>{username}</p>
 			</>
+
 			<div>
 				<button onClick={onShowTextarea}>Reply</button>
 			</div>
+
 			<div
 				style={{
 					margin: '10px 0',
@@ -69,6 +71,7 @@ export const Comments = ({
 					+
 				</button>
 			</div>
+
 			{showTextarea && (
 				<NewComment
 					index={index}
@@ -78,6 +81,7 @@ export const Comments = ({
 					onShowTextarea={onShowTextarea}
 				/>
 			)}
+
 			<>
 				{hasReplies &&
 					replies?.map((reply) => (
