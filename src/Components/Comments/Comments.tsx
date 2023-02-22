@@ -1,5 +1,11 @@
-import { Dispatch, SetStateAction } from 'react'
-import { useShowTextarea, useUpdateScore } from '../../Hooks'
+import {
+	Dispatch,
+	FormEvent,
+	SetStateAction,
+	useCallback,
+	useState
+} from 'react'
+import { useShowTextarea, useUpdateComment, useUpdateScore } from '../../Hooks'
 
 import { CommentsType } from '../../Types/Types'
 import { NewComment } from '../NewComment'
@@ -36,7 +42,26 @@ export const Comments = ({
 		score
 	})
 
-	const { showTextarea, onShowTextarea } = useShowTextarea()
+	const { updateComment } = useUpdateComment()
+	const {
+		showTextarea,
+		showTextareaUpdate,
+		onShowTextarea,
+		onShowTextareaUpdate
+	} = useShowTextarea()
+
+	const [updateCommentInput, setUpdateCommentInput] = useState(content)
+
+	const onUpdateComment = useCallback(
+		(event: FormEvent<HTMLFormElement>) => {
+			event.preventDefault()
+
+			onShowTextareaUpdate()
+			updateComment({ id, level, updatedProp: { content: updateCommentInput } })
+			onUpdate((prevState) => !prevState)
+		},
+		[showTextareaUpdate, updateCommentInput]
+	)
 
 	const hasReplies = replies && replies?.length > 0
 
@@ -44,16 +69,34 @@ export const Comments = ({
 
 	return (
 		<div style={commentStyle}>
-			<>
+			<div>
 				<img src={webp} alt={`${username} photo`} />
 				<p>id: {id}</p>
 				<p>Created at: {createdAt}</p>
-				<p>{content}</p>
 				<p>{username}</p>
-			</>
+				{showTextareaUpdate ? (
+					<form id="updateComment" onSubmit={onUpdateComment}>
+						<textarea
+							autoFocus
+							style={{ width: '100%', height: '100px' }}
+							value={updateCommentInput}
+							onChange={({ target }) => setUpdateCommentInput(target.value)}
+						/>
+						<button id="updateComment" type="submit">
+							Update comment
+						</button>
+					</form>
+				) : (
+					<p>{content}</p>
+				)}
+			</div>
 
 			<div>
 				<button onClick={onShowTextarea}>Reply</button>
+			</div>
+
+			<div>
+				<button onClick={onShowTextareaUpdate}>Update</button>
 			</div>
 
 			<div
