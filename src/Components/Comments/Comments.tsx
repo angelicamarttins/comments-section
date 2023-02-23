@@ -9,6 +9,7 @@ import { useShowTextarea, useUpdateComment, useUpdateScore } from '../../Hooks'
 
 import { CommentsType } from '../../Types/Types'
 import { NewComment } from '../NewComment'
+import { TextArea } from '../TextArea/TextArea'
 
 type CommentsProps = CommentsType & {
 	index: number
@@ -50,17 +51,15 @@ export const Comments = ({
 		onShowTextareaUpdate
 	} = useShowTextarea()
 
-	const [updateCommentInput, setUpdateCommentInput] = useState(content)
-
 	const onUpdateComment = useCallback(
-		(event: FormEvent<HTMLFormElement>) => {
+		(comment: string, event: FormEvent<HTMLFormElement>) => {
 			event.preventDefault()
 
 			onShowTextareaUpdate()
-			updateComment({ id, level, updatedProp: { content: updateCommentInput } })
+			updateComment({ id, level, updatedProp: { content: comment } })
 			onUpdate((prevState) => !prevState)
 		},
-		[showTextareaUpdate, updateCommentInput]
+		[showTextareaUpdate]
 	)
 
 	const hasReplies = replies && replies?.length > 0
@@ -75,17 +74,11 @@ export const Comments = ({
 				<p>Created at: {createdAt}</p>
 				<p>{username}</p>
 				{showTextareaUpdate ? (
-					<form id="updateComment" onSubmit={onUpdateComment}>
-						<textarea
-							autoFocus
-							style={{ width: '100%', height: '100px' }}
-							value={updateCommentInput}
-							onChange={({ target }) => setUpdateCommentInput(target.value)}
-						/>
-						<button id="updateComment" type="submit">
-							Update comment
-						</button>
-					</form>
+					<TextArea
+						buttonTitle="Update Comment"
+						initialValue={content}
+						onSubmit={onUpdateComment}
+					/>
 				) : (
 					<p>{content}</p>
 				)}
@@ -139,3 +132,4 @@ export const Comments = ({
 		</div>
 	)
 }
+

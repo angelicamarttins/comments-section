@@ -11,31 +11,31 @@ import { useLocalStorage } from './useLocalStorage'
 import { v4 as uuidv4 } from 'uuid'
 
 type UseHandleSubmitProps = {
-	comment: string
 	index?: number
 	level: number
 	replyingTo?: string
-	handleComment: Dispatch<SetStateAction<string>>
 	onShowTextarea?: () => void
 	onUpdate: Dispatch<SetStateAction<boolean>>
 }
 
 type UseHandleSubmitReturn = {
-	onSubmit: (event: FormEvent<HTMLFormElement>) => void
+	onSubmit: (
+		comment: string,
+		event: FormEvent<HTMLFormElement>,
+		handleComment?: Dispatch<SetStateAction<string>>
+	) => void
 }
 
 export function useHandleSubmit({
 	index,
-	comment,
 	level,
 	replyingTo,
-	handleComment,
 	onShowTextarea,
 	onUpdate
 }: UseHandleSubmitProps): UseHandleSubmitReturn {
 	const { getLocalStorageValues, setLocalStorageValues } = useLocalStorage()
 
-	const baseComment = useMemo(() => {
+	const baseComment = useCallback((comment: string) => {
 		return {
 			level,
 			id: uuidv4(),
@@ -53,25 +53,29 @@ export function useHandleSubmit({
 				username: 'juliusomo'
 			}
 		}
-	}, [comment])
+	}, [])
 
 	const onSubmit = useCallback(
-		(event: FormEvent<HTMLFormElement>) => {
+		(
+			comment: string,
+			event: FormEvent<HTMLFormElement>,
+			handleComment?: Dispatch<SetStateAction<string>>
+		) => {
 			event.preventDefault()
 
 			const commensData = getLocalStorageValues<CommentsData>('commentsData')
 
 			level && index !== undefined
-				? commensData?.comments?.[index].replies?.push(baseComment)
-				: commensData?.comments?.push(baseComment)
+				? commensData?.comments?.[index].replies?.push(baseComment(comment))
+				: commensData?.comments?.push(baseComment(comment))
 
 			setLocalStorageValues('commentsData', commensData)
 
 			onShowTextarea?.()
-			handleComment('')
+			handleComment?.('')
 			onUpdate((prevState) => !prevState)
 		},
-		[comment]
+		[]
 	)
 
 	return { onSubmit }
