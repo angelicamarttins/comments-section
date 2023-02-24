@@ -1,3 +1,4 @@
+import { CommentsType, UserType } from '../../Types/Types'
 import {
 	Dispatch,
 	FormEvent,
@@ -5,13 +6,14 @@ import {
 	useCallback,
 	useState
 } from 'react'
-import { useShowTextarea, useUpdateComment, useUpdateScore } from '../../Hooks'
+import { useFlag, useUpdateComment, useUpdateScore } from '../../Hooks'
 
-import { CommentsType } from '../../Types/Types'
+import { Modal } from '../Modal'
 import { NewComment } from '../NewComment'
 import { TextArea } from '../TextArea/TextArea'
 
 type CommentsProps = CommentsType & {
+	currentUser: UserType
 	index: number
 	onUpdate: Dispatch<SetStateAction<boolean>>
 }
@@ -19,6 +21,7 @@ type CommentsProps = CommentsType & {
 export const Comments = ({
 	content,
 	createdAt,
+	currentUser,
 	id,
 	index,
 	level,
@@ -44,22 +47,20 @@ export const Comments = ({
 	})
 
 	const { updateComment } = useUpdateComment()
-	const {
-		showTextarea,
-		showTextareaUpdate,
-		onShowTextarea,
-		onShowTextareaUpdate
-	} = useShowTextarea()
+	const [showNewComment, onShowNewComment, onHideNewComment] = useFlag()
+	const [showUpdateComment, onShowUpdateComment, onHideUpdateComment] =
+		useFlag()
+	const [showDeleteModal, onShowDeleteModal, onHideDeleteModal] = useFlag()
 
 	const onUpdateComment = useCallback(
 		(comment: string, event: FormEvent<HTMLFormElement>) => {
 			event.preventDefault()
 
-			onShowTextareaUpdate()
+			onHideUpdateComment()
 			updateComment({ id, level, updatedProp: { content: comment } })
 			onUpdate((prevState) => !prevState)
 		},
-		[showTextareaUpdate]
+		[showUpdateComment]
 	)
 
 	const hasReplies = replies && replies?.length > 0
@@ -73,9 +74,9 @@ export const Comments = ({
 				<p>id: {id}</p>
 				<p>Created at: {createdAt}</p>
 				<p>{username}</p>
-				{showTextareaUpdate ? (
+				{showUpdateComment ? (
 					<TextArea
-						buttonTitle="Update Comment"
+						buttonTitle="Update"
 						initialValue={content}
 						onSubmit={onUpdateComment}
 					/>
@@ -85,12 +86,19 @@ export const Comments = ({
 			</div>
 
 			<div>
-				<button onClick={onShowTextarea}>Reply</button>
+				<button onClick={onShowNewComment}>Reply</button>
 			</div>
 
-			<div>
-				<button onClick={onShowTextareaUpdate}>Update</button>
-			</div>
+			{username === currentUser?.username && (
+				<>
+					<div>
+						<button onClick={onShowUpdateComment}>Update</button>
+					</div>
+					<div>
+						<button onClick={onShowDeleteModal}>Delete</button>
+					</div>
+				</>
+			)}
 
 			<div
 				style={{
@@ -108,13 +116,13 @@ export const Comments = ({
 				</button>
 			</div>
 
-			{showTextarea && (
+			{showNewComment && (
 				<NewComment
 					index={index}
 					level={1}
 					replyingTo={username}
 					onUpdate={onUpdate}
-					onShowTextarea={onShowTextarea}
+					onHide={onHideNewComment}
 				/>
 			)}
 
@@ -125,11 +133,24 @@ export const Comments = ({
 							key={reply.id}
 							index={index}
 							onUpdate={onUpdate}
+							currentUser={currentUser}
 							{...reply}
 						/>
 					))}
 			</>
+
+			<Modal
+				message="Are you sure you want to delete this comment? This will remove the comment and can't be undone."
+				primaryAction={() => {
+					console.log('deleted')
+					onHideDeleteModal()
+				}}
+				primaryLabel="Yes, delete"
+				title="Delete comment"
+				secondaryAction={onHideDeleteModal}
+				secondaryLabel="No, cancel"
+				show={showDeleteModal}
+			/>
 		</div>
 	)
 }
-

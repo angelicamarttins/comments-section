@@ -14,7 +14,7 @@ type UseHandleSubmitProps = {
 	index?: number
 	level: number
 	replyingTo?: string
-	onShowTextarea?: () => void
+	onHide?: () => void
 	onUpdate: Dispatch<SetStateAction<boolean>>
 }
 
@@ -30,7 +30,7 @@ export function useHandleSubmit({
 	index,
 	level,
 	replyingTo,
-	onShowTextarea,
+	onHide,
 	onUpdate
 }: UseHandleSubmitProps): UseHandleSubmitReturn {
 	const { getLocalStorageValues, setLocalStorageValues } = useLocalStorage()
@@ -71,7 +71,7 @@ export function useHandleSubmit({
 
 			setLocalStorageValues('commentsData', commensData)
 
-			onShowTextarea?.()
+			onHide?.()
 			handleComment?.('')
 			onUpdate((prevState) => !prevState)
 		},

@@ -17,6 +17,7 @@ export const Container = ({ commentsData, onUpdate }: ContainerProps) => (
 					key={comment.id}
 					index={index}
 					onUpdate={onUpdate}
+					currentUser={commentsData.currentUser}
 					{...comment}
 				/>
 			)

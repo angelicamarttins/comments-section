@@ -1,6 +1,6 @@
 export * from './useFetch'
 export * from './useHandleComments'
 export * from './useLocalStorage'
-export * from './useShowTextarea'
+export * from './useFlag'
 export * from './useUpdateComment'
 export * from './useUpdateScore'

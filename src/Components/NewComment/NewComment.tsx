@@ -9,7 +9,7 @@ type NewCommentProps = {
 	index?: number
 	level?: number
 	replyingTo?: string
-	onShowTextarea?: () => void
+	onHide?: () => void
 	onUpdate: Dispatch<SetStateAction<boolean>>
 }
 
@@ -17,14 +17,14 @@ export const NewComment = ({
 	index,
 	level = 0,
 	replyingTo,
-	onShowTextarea,
+	onHide,
 	onUpdate
 }: NewCommentProps) => {
 	const { onSubmit } = useHandleSubmit({
 		index,
 		level,
 		replyingTo,
-		onShowTextarea,
+		onHide,
 		onUpdate
 	})
 
