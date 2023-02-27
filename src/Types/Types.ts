@@ -1,7 +1,7 @@
 export type CommentsType = {
 	content: string
 	createdAt: string
-	id?: string
+	id: string
 	level: number
 	originalScore: number
 	replies?: CommentsType[]

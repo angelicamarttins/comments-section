@@ -3,7 +3,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useUpdateComment } from './useUpdateComment'
 
 type UseUpdateScoreProps = {
-	id?: string
+	id: string
 	level: number
 	originalScore: number
 	score?: number

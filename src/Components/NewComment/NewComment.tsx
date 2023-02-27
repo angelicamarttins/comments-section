@@ -1,16 +1,12 @@
-import { Dispatch, SetStateAction, useCallback, useEffect } from 'react'
-
-import { CommentsType } from '../../Types'
 import { TextArea } from '../TextArea/TextArea'
-import { useHandleComments } from '../../Hooks'
-import { useHandleSubmit } from '../../Hooks/useHandleSubmit'
+import { useSubmitComment } from '../../Hooks/useSubmitComment'
 
 type NewCommentProps = {
 	index?: number
 	level?: number
 	replyingTo?: string
 	onHide?: () => void
-	onUpdate: Dispatch<SetStateAction<boolean>>
+	onUpdate: () => void
 }
 
 export const NewComment = ({
@@ -20,7 +16,7 @@ export const NewComment = ({
 	onHide,
 	onUpdate
 }: NewCommentProps) => {
-	const { onSubmit } = useHandleSubmit({
+	const { submitComment } = useSubmitComment({
 		index,
 		level,
 		replyingTo,
@@ -30,7 +26,7 @@ export const NewComment = ({
 
 	return (
 		<TextArea
-			onSubmit={onSubmit}
+			onSubmit={submitComment}
 			initialValue={replyingTo ? `@${replyingTo} ` : ''}
 			buttonTitle="SEND"
 		/>

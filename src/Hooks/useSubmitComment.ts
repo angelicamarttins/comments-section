@@ -1,38 +1,32 @@
-import {
-	Dispatch,
-	FormEvent,
-	SetStateAction,
-	useCallback,
-	useMemo
-} from 'react'
+import { Dispatch, FormEvent, SetStateAction, useCallback } from 'react'
 
 import { CommentsData } from '../Types'
 import { useLocalStorage } from './useLocalStorage'
 import { v4 as uuidv4 } from 'uuid'
 
-type UseHandleSubmitProps = {
+type UseSubmitCommentProps = {
 	index?: number
 	level: number
 	replyingTo?: string
 	onHide?: () => void
-	onUpdate: Dispatch<SetStateAction<boolean>>
+	onUpdate: () => void
 }
 
-type UseHandleSubmitReturn = {
-	onSubmit: (
+type UseSubmitCommentReturn = {
+	submitComment: (
 		comment: string,
 		event: FormEvent<HTMLFormElement>,
 		handleComment?: Dispatch<SetStateAction<string>>
 	) => void
 }
 
-export function useHandleSubmit({
+export function useSubmitComment({
 	index,
 	level,
 	replyingTo,
 	onHide,
 	onUpdate
-}: UseHandleSubmitProps): UseHandleSubmitReturn {
+}: UseSubmitCommentProps): UseSubmitCommentReturn {
 	const { getLocalStorageValues, setLocalStorageValues } = useLocalStorage()
 
 	const baseComment = useCallback((comment: string) => {
@@ -55,7 +49,7 @@ export function useHandleSubmit({
 		}
 	}, [])
 
-	const onSubmit = useCallback(
+	const submitComment = useCallback(
 		(
 			comment: string,
 			event: FormEvent<HTMLFormElement>,
@@ -63,20 +57,20 @@ export function useHandleSubmit({
 		) => {
 			event.preventDefault()
 
-			const commensData = getLocalStorageValues<CommentsData>('commentsData')
+			const commentsData = getLocalStorageValues<CommentsData>('commentsData')
 
-			level && index !== undefined
-				? commensData?.comments?.[index].replies?.push(baseComment(comment))
-				: commensData?.comments?.push(baseComment(comment))
+			!!level && index !== undefined
+				? commentsData?.comments?.[index].replies?.push(baseComment(comment))
+				: commentsData?.comments.push(baseComment(comment))
 
-			setLocalStorageValues('commentsData', commensData)
+			setLocalStorageValues('commentsData', commentsData)
 
 			onHide?.()
 			handleComment?.('')
-			onUpdate((prevState) => !prevState)
+			onUpdate()
 		},
 		[]
 	)
 
-	return { onSubmit }
+	return { submitComment }
 }

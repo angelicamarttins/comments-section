@@ -1,10 +1,10 @@
-import { CommentsData, CommentsType, UpdatedProp } from '../Types'
+import { CommentsData, UpdatedProp } from '../Types'
 import { useCallback, useEffect, useState } from 'react'
 
 import { useLocalStorage } from './useLocalStorage'
 
 type UpdateCommentProps = {
-	id?: string
+	id: string
 	level: number
 	updatedProp: UpdatedProp
 }

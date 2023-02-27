@@ -1,11 +1,11 @@
-import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import { UseFetchReturn, useFetch, useLocalStorage } from '../../Hooks'
+import { useCallback, useEffect, useState } from 'react'
 
 import { CommentsData } from '../../Types'
 
 type UseControllerReturn = {
 	commentsData?: CommentsData
-	onUpdate: Dispatch<SetStateAction<boolean>>
+	onUpdate: () => void
 }
 
 export function useController(): UseControllerReturn {
@@ -14,6 +14,10 @@ export function useController(): UseControllerReturn {
 
 	const [commentsData, setCommentsData] = useState<CommentsData>()
 	const [update, setUpdate] = useState(false)
+
+	const onUpdate = useCallback(() => {
+		setUpdate((prevState) => !prevState)
+	}, [])
 
 	useEffect(() => {
 		const localStorageValues: CommentsData | null =
@@ -29,5 +33,5 @@ export function useController(): UseControllerReturn {
 		}
 	}, [fetching, update])
 
-	return { commentsData, onUpdate: setUpdate }
+	return { commentsData, onUpdate }
 }

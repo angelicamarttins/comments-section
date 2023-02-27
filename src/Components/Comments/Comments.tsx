@@ -1,21 +1,16 @@
 import { CommentsType, UserType } from '../../Types/Types'
-import {
-	Dispatch,
-	FormEvent,
-	SetStateAction,
-	useCallback,
-	useState
-} from 'react'
+import { FormEvent, useCallback } from 'react'
 import { useFlag, useUpdateComment, useUpdateScore } from '../../Hooks'
 
 import { Modal } from '../Modal'
 import { NewComment } from '../NewComment'
 import { TextArea } from '../TextArea/TextArea'
+import { useDeleteComment } from '../../Hooks/useDeleteComment'
 
 type CommentsProps = CommentsType & {
 	currentUser: UserType
 	index: number
-	onUpdate: Dispatch<SetStateAction<boolean>>
+	onUpdate: () => void
 }
 
 export const Comments = ({
@@ -46,19 +41,30 @@ export const Comments = ({
 		score
 	})
 
-	const { updateComment } = useUpdateComment()
-	const [showNewComment, onShowNewComment, onHideNewComment] = useFlag()
+	const [showNewReply, onShowNewReply, onHideNewReply] = useFlag()
 	const [showUpdateComment, onShowUpdateComment, onHideUpdateComment] =
 		useFlag()
 	const [showDeleteModal, onShowDeleteModal, onHideDeleteModal] = useFlag()
+	const { deleteComment } = useDeleteComment({
+		id,
+		level,
+		onHide: onHideDeleteModal,
+		onUpdate
+	})
+	const { updateComment } = useUpdateComment()
 
 	const onUpdateComment = useCallback(
 		(comment: string, event: FormEvent<HTMLFormElement>) => {
 			event.preventDefault()
 
+			updateComment({
+				id,
+				level,
+				updatedProp: { content: comment }
+			})
+
 			onHideUpdateComment()
-			updateComment({ id, level, updatedProp: { content: comment } })
-			onUpdate((prevState) => !prevState)
+			onUpdate()
 		},
 		[showUpdateComment]
 	)
@@ -85,14 +91,17 @@ export const Comments = ({
 				)}
 			</div>
 
-			<div>
-				<button onClick={onShowNewComment}>Reply</button>
-			</div>
+			{username !== currentUser.username && (
+				<div>
+					<button onClick={onShowNewReply}>Reply</button>
+				</div>
+			)}
 
-			{username === currentUser?.username && (
+			{username === currentUser.username && (
 				<>
+					<p>you</p>
 					<div>
-						<button onClick={onShowUpdateComment}>Update</button>
+						<button onClick={onShowUpdateComment}>Edit</button>
 					</div>
 					<div>
 						<button onClick={onShowDeleteModal}>Delete</button>
@@ -116,13 +125,13 @@ export const Comments = ({
 				</button>
 			</div>
 
-			{showNewComment && (
+			{showNewReply && (
 				<NewComment
 					index={index}
 					level={1}
 					replyingTo={username}
 					onUpdate={onUpdate}
-					onHide={onHideNewComment}
+					onHide={onHideNewReply}
 				/>
 			)}
 
@@ -141,10 +150,7 @@ export const Comments = ({
 
 			<Modal
 				message="Are you sure you want to delete this comment? This will remove the comment and can't be undone."
-				primaryAction={() => {
-					console.log('deleted')
-					onHideDeleteModal()
-				}}
+				primaryAction={deleteComment}
 				primaryLabel="Yes, delete"
 				title="Delete comment"
 				secondaryAction={onHideDeleteModal}
