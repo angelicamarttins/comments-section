@@ -71,7 +71,7 @@ export const Comments = ({
 
 	const hasReplies = replies && replies?.length > 0
 
-	const commentStyle = { border: '1px solid red', margin: `.5rem ${level}rem` }
+	const commentStyle = { border: '1px solid red', margin: `0 ${level}rem` }
 
 	return (
 		<div style={commentStyle}>
