@@ -48,45 +48,14 @@ export const Comments = ({
 
 	return (
 		<div>
-			<div>
-				<img src={webp} alt={`${username} photo`} />
-				<p>id: {id}</p>
-				<p>Created at: {createdAt}</p>
-				<p>{username}</p>
-				{showUpdateComment ? (
-					<TextArea
-						buttonTitle="Update"
-						initialValue={content}
-						onSubmit={onUpdateComment}
-					/>
-				) : (
-					<p>{content}</p>
-				)}
-			</div>
-
-			{username !== currentUser.username && (
-				<div>
-					<button onClick={onShowNewReply}>Reply</button>
-				</div>
-			)}
-
-			{username === currentUser.username && (
-				<>
-					<p>you</p>
-					<div>
-						<button onClick={onShowUpdateComment}>Edit</button>
-					</div>
-					<div>
-						<button onClick={onShowDeleteModal}>Delete</button>
-					</div>
-				</>
-			)}
-
 			<div
 				style={{
+					width: '100%',
+					maxWidth: '25px',
 					margin: '10px 0',
 					display: 'flex',
-					alignContent: 'center'
+					alignContent: 'center',
+					flexDirection: 'column'
 				}}
 			>
 				<button disabled={didUserDecrementVote} onClick={onDecrementScore}>
@@ -97,6 +66,36 @@ export const Comments = ({
 					+
 				</button>
 			</div>
+			<div>
+				<img src={webp} alt={`${username} photo`} />
+				<p>{username}</p>
+				<p>Created at: {createdAt}</p>
+				{username !== currentUser.username && (
+					<div>
+						<button onClick={onShowNewReply}>Reply</button>
+					</div>
+				)}
+				{username === currentUser.username && (
+					<>
+						<p>you</p>
+						<div>
+							<button onClick={onShowUpdateComment}>Edit</button>
+						</div>
+						<div>
+							<button onClick={onShowDeleteModal}>Delete</button>
+						</div>
+					</>
+				)}
+			</div>
+			{showUpdateComment ? (
+				<TextArea
+					buttonTitle="Update"
+					initialValue={content}
+					onSubmit={onUpdateComment}
+				/>
+			) : (
+				<p>{content}</p>
+			)}
 
 			{showNewReply && (
 				<NewComment
