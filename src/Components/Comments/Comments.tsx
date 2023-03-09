@@ -1,11 +1,9 @@
 import { CommentsType, UserType } from '../../Types/Types'
-import { FormEvent, useCallback } from 'react'
-import { useFlag, useUpdateComment, useUpdateScore } from '../../Hooks'
 
 import { Modal } from '../Modal'
 import { NewComment } from '../NewComment'
 import { TextArea } from '../TextArea/TextArea'
-import { useDeleteComment } from '../../Hooks/useDeleteComment'
+import { useComments } from './hooks/useComments'
 
 type CommentsProps = CommentsType & {
 	currentUser: UserType
@@ -28,48 +26,25 @@ export const Comments = ({
 }: CommentsProps) => {
 	const { image, username } = user
 	const { png, webp } = image
+
 	const {
 		didUserDecrementVote,
 		didUserIncrementVote,
+		hasReplies,
+		showDeleteModal,
+		showNewReply,
+		showUpdateComment,
 		updatedScore,
+		deleteComment,
 		onDecrementScore,
-		onIncrementScore
-	} = useUpdateScore({
-		id,
-		level,
-		originalScore,
-		score
-	})
-
-	const [showNewReply, onShowNewReply, onHideNewReply] = useFlag()
-	const [showUpdateComment, onShowUpdateComment, onHideUpdateComment] =
-		useFlag()
-	const [showDeleteModal, onShowDeleteModal, onHideDeleteModal] = useFlag()
-	const { deleteComment } = useDeleteComment({
-		id,
-		level,
-		onHide: onHideDeleteModal,
-		onUpdate
-	})
-	const { updateComment } = useUpdateComment()
-
-	const onUpdateComment = useCallback(
-		(comment: string, event: FormEvent<HTMLFormElement>) => {
-			event.preventDefault()
-
-			updateComment({
-				id,
-				level,
-				updatedProp: { content: comment }
-			})
-
-			onHideUpdateComment()
-			onUpdate()
-		},
-		[showUpdateComment]
-	)
-
-	const hasReplies = replies && replies?.length > 0
+		onIncrementScore,
+		onHideDeleteModal,
+		onHideNewReply,
+		onShowDeleteModal,
+		onShowNewReply,
+		onShowUpdateComment,
+		onUpdateComment
+	} = useComments({ id, level, originalScore, replies, score, onUpdate })
 
 	return (
 		<div>
