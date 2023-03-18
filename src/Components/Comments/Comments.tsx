@@ -1,3 +1,4 @@
+import { CommentLine, InfoLine, Score, Wrapper } from './Comments.styles'
 import { CommentsType, UserType } from '../../Types/Types'
 
 import { Modal } from '../Modal'
@@ -47,17 +48,8 @@ export const Comments = ({
 	} = useComments({ id, level, originalScore, replies, score, onUpdate })
 
 	return (
-		<div>
-			<div
-				style={{
-					width: '100%',
-					maxWidth: '25px',
-					margin: '10px 0',
-					display: 'flex',
-					alignContent: 'center',
-					flexDirection: 'column'
-				}}
-			>
+		<Wrapper>
+			<Score>
 				<button disabled={didUserDecrementVote} onClick={onDecrementScore}>
 					-
 				</button>
@@ -65,8 +57,8 @@ export const Comments = ({
 				<button disabled={didUserIncrementVote} onClick={onIncrementScore}>
 					+
 				</button>
-			</div>
-			<div>
+			</Score>
+			<InfoLine>
 				<img src={webp} alt={`${username} photo`} />
 				<p>{username}</p>
 				<p>Created at: {createdAt}</p>
@@ -86,16 +78,18 @@ export const Comments = ({
 						</div>
 					</>
 				)}
-			</div>
-			{showUpdateComment ? (
-				<TextArea
-					buttonTitle="Update"
-					initialValue={content}
-					onSubmit={onUpdateComment}
-				/>
-			) : (
-				<p>{content}</p>
-			)}
+			</InfoLine>
+			<CommentLine>
+				{showUpdateComment ? (
+					<TextArea
+						buttonTitle="Update"
+						initialValue={content}
+						onSubmit={onUpdateComment}
+					/>
+				) : (
+					<p>{content}</p>
+				)}
+			</CommentLine>
 
 			{showNewReply && (
 				<NewComment
@@ -129,6 +123,6 @@ export const Comments = ({
 				secondaryLabel="No, cancel"
 				show={showDeleteModal}
 			/>
-		</div>
+		</Wrapper>
 	)
 }
