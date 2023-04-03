@@ -2,9 +2,11 @@ import {
 	CommentLine,
 	Image,
 	InfoLine,
+	InfoWrapper,
 	ScoreButton,
 	ScoreCount,
 	ScoreWrapper,
+	UserName,
 	Wrapper
 } from './Comments.styles'
 import { CommentsType, UserType } from '../../Types/Types'
@@ -70,9 +72,11 @@ export const Comments = ({
 			</ScoreWrapper>
 
 			<InfoLine>
-				<Image src={webp} alt={`${username} photo`} />
-				<p>{username}</p>
-				<p>Created at: {createdAt}</p>
+				<InfoWrapper>
+					<Image src={webp} alt={`${username} photo`} />
+					<UserName>{username}</UserName>
+					<p>{createdAt}</p>
+				</InfoWrapper>
 
 				{username !== currentUser.username && (
 					<div>

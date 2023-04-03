@@ -14,12 +14,20 @@ export const Wrapper = styled.div`
 
 export const InfoLine = styled.div`
 	display: flex;
-	justify-content: space-around;
+	justify-content: space-between;
 	align-items: center;
 
 	grid-area: 1 / 2 / 1 / 2;
 
 	border: 1px solid;
+`
+
+export const InfoWrapper = styled.div`
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+
+	width: 45%;
 `
 
 export const CommentLine = styled.div`
@@ -71,4 +79,9 @@ export const ScoreCount = styled.p`
 export const Image = styled.img`
 	width: 32px;
 	height: 32px;
+`
+export const UserName = styled.h1`
+	color: ${({ theme }) => theme.colors.grayDark};
+
+	font-size: ${({ theme }) => theme.fonts.size.regular};
 `
