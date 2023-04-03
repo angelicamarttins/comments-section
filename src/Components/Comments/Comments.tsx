@@ -1,4 +1,12 @@
-import { CommentLine, InfoLine, Score, Wrapper } from './Comments.styles'
+import {
+	CommentLine,
+	Image,
+	InfoLine,
+	ScoreButton,
+	ScoreCount,
+	ScoreWrapper,
+	Wrapper
+} from './Comments.styles'
 import { CommentsType, UserType } from '../../Types/Types'
 
 import { Modal } from '../Modal'
@@ -49,24 +57,29 @@ export const Comments = ({
 
 	return (
 		<Wrapper>
-			<Score>
-				<button disabled={didUserDecrementVote} onClick={onDecrementScore}>
-					-
-				</button>
-				<p>{updatedScore}</p>
-				<button disabled={didUserIncrementVote} onClick={onIncrementScore}>
+			<ScoreWrapper>
+				<ScoreButton disabled={didUserIncrementVote} onClick={onIncrementScore}>
 					+
-				</button>
-			</Score>
+				</ScoreButton>
+
+				<ScoreCount>{updatedScore}</ScoreCount>
+
+				<ScoreButton disabled={didUserDecrementVote} onClick={onDecrementScore}>
+					-
+				</ScoreButton>
+			</ScoreWrapper>
+
 			<InfoLine>
-				<img src={webp} alt={`${username} photo`} />
+				<Image src={webp} alt={`${username} photo`} />
 				<p>{username}</p>
 				<p>Created at: {createdAt}</p>
+
 				{username !== currentUser.username && (
 					<div>
 						<button onClick={onShowNewReply}>Reply</button>
 					</div>
 				)}
+
 				{username === currentUser.username && (
 					<>
 						<p>you</p>
@@ -79,6 +92,7 @@ export const Comments = ({
 					</>
 				)}
 			</InfoLine>
+
 			<CommentLine>
 				{showUpdateComment ? (
 					<TextArea
