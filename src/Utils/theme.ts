@@ -1,4 +1,6 @@
-export const theme = {
+import { Theme } from '../Types'
+
+export const theme: Theme = {
 	colors: {
 		blueDark: '#5357B6',
 		blueSoft: '#c5c6ef',
@@ -16,8 +18,8 @@ export const theme = {
 			medium: '500',
 			bold: '600'
 		},
-    size: {
-      regular: '16px'
-    }
+		size: {
+			regular: '16px'
+		}
 	}
 }

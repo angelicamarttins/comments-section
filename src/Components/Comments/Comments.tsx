@@ -11,10 +11,13 @@ import {
 } from './Comments.styles'
 import { CommentsType, UserType } from '../../Types/Types'
 
+import ReplyIcon from '../../assets/icons/icon-reply.svg'
+
 import { Modal } from '../Modal'
 import { NewComment } from '../NewComment'
 import { TextArea } from '../TextArea/TextArea'
 import { useComments } from './hooks/useComments'
+import { IconnedButton } from '../IconnedButton/IconnedButton'
 
 type CommentsProps = CommentsType & {
 	currentUser: UserType
@@ -79,9 +82,13 @@ export const Comments = ({
 				</InfoWrapper>
 
 				{username !== currentUser.username && (
-					<div>
-						<button onClick={onShowNewReply}>Reply</button>
-					</div>
+					<IconnedButton
+						onClick={onShowNewReply}
+						iconColor="blueDark"
+						icon={<ReplyIcon />}
+					>
+						Reply
+					</IconnedButton>
 				)}
 
 				{username === currentUser.username && (

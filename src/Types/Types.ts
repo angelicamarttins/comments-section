@@ -29,3 +29,35 @@ export type UpdatedProp = {
 	content?: string
 	score?: number
 }
+
+export type Colors = {
+	blueDark: string
+	blueSoft: string
+	grayDark: string
+	grayLight: string
+	grayMedium: string
+	graySoft: string
+	red: string
+	redSoft: string
+	white: string
+}
+
+type Fonts = {
+	weight: Weight
+	size: Size
+}
+
+type Weight = {
+	regular: string
+	medium: string
+	bold: string
+}
+
+type Size = {
+	regular: string
+}
+
+export type Theme = {
+	colors: Colors
+	fonts: Fonts
+}
