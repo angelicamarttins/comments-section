@@ -61,3 +61,7 @@ export type Theme = {
 	colors: Colors
 	fonts: Fonts
 }
+
+export type ThemeColors = keyof Colors
+
+export type ThemeWeight = keyof Weight

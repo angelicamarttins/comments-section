@@ -1,7 +1,7 @@
 import styled, { ThemeProps, css } from 'styled-components'
 import { Theme } from '../../Types'
 
-type ScoreButtonProps = {
+type ScoreButtonThemeProps = {
 	theme: Theme
 	disabled: boolean
 }
@@ -64,7 +64,11 @@ export const ScoreWrapper = styled.div`
 `
 
 export const ScoreButton = styled.button`
-	${({ theme, disabled }: ScoreButtonProps) => css`
+	${({ theme, disabled }: ScoreButtonThemeProps) => css`
+		> svg {
+			background-color: red;
+		}
+
 		width: 100%;
 		height: 100%;
 		padding: 0.35rem 0;
@@ -109,20 +113,5 @@ export const UserName = styled.h1`
 		color: ${theme.colors.grayDark};
 
 		font-size: ${theme.fonts.size.regular};
-	`}
-`
-
-export const ReplyButton = styled.div`
-	${({ theme }: ThemeProps<Theme>) => css`
-		> button {
-			border: none;
-
-			background-color: transparent;
-
-			color: ${theme.colors.blueDark};
-			font-weight: ${theme.fonts.weight.bold};
-
-			cursor: pointer;
-		}
 	`}
 `

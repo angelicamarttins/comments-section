@@ -11,13 +11,12 @@ import {
 } from './Comments.styles'
 import { CommentsType, UserType } from '../../Types/Types'
 
-import ReplyIcon from '../../assets/icons/icon-reply.svg'
-
+import { MinusIcon, PlusIcon, ReplyIcon } from '../../assets/icons'
 import { Modal } from '../Modal'
 import { NewComment } from '../NewComment'
 import { TextArea } from '../TextArea/TextArea'
 import { useComments } from './hooks/useComments'
-import { IconnedButton } from '../IconnedButton/IconnedButton'
+import { IconedButton } from '../IconedButton'
 
 type CommentsProps = CommentsType & {
 	currentUser: UserType
@@ -64,13 +63,13 @@ export const Comments = ({
 		<Wrapper>
 			<ScoreWrapper>
 				<ScoreButton disabled={didUserIncrementVote} onClick={onIncrementScore}>
-					+
+					<PlusIcon />
 				</ScoreButton>
 
 				<ScoreCount>{updatedScore}</ScoreCount>
 
 				<ScoreButton disabled={didUserDecrementVote} onClick={onDecrementScore}>
-					-
+					<MinusIcon />
 				</ScoreButton>
 			</ScoreWrapper>
 
@@ -82,13 +81,13 @@ export const Comments = ({
 				</InfoWrapper>
 
 				{username !== currentUser.username && (
-					<IconnedButton
-						onClick={onShowNewReply}
-						iconColor="blueDark"
+					<IconedButton
 						icon={<ReplyIcon />}
+						onClick={onShowNewReply}
+						textWeight="medium"
 					>
 						Reply
-					</IconnedButton>
+					</IconedButton>
 				)}
 
 				{username === currentUser.username && (

@@ -16,7 +16,7 @@ export const theme: Theme = {
 		weight: {
 			regular: '400',
 			medium: '500',
-			bold: '600'
+			bold: '700'
 		},
 		size: {
 			regular: '16px'
