@@ -7,7 +7,9 @@ import {
 	ScoreCount,
 	ScoreWrapper,
 	UserName,
-	Wrapper
+	CommentWrapper,
+	ReplyWrapper,
+	ReplyBar
 } from './Comments.styles'
 import { CommentsType, UserType } from '../../Types/Types'
 
@@ -60,93 +62,105 @@ export const Comments = ({
 	} = useComments({ id, level, originalScore, replies, score, onUpdate })
 
 	return (
-		<Wrapper>
-			<ScoreWrapper>
-				<ScoreButton disabled={didUserIncrementVote} onClick={onIncrementScore}>
-					<PlusIcon />
-				</ScoreButton>
-
-				<ScoreCount>{updatedScore}</ScoreCount>
-
-				<ScoreButton disabled={didUserDecrementVote} onClick={onDecrementScore}>
-					<MinusIcon />
-				</ScoreButton>
-			</ScoreWrapper>
-
-			<InfoLine>
-				<InfoWrapper>
-					<Image src={webp} alt={`${username} photo`} />
-					<UserName>{username}</UserName>
-					<p>{createdAt}</p>
-				</InfoWrapper>
-
-				{username !== currentUser.username && (
-					<IconedButton
-						icon={<ReplyIcon />}
-						onClick={onShowNewReply}
-						textWeight="medium"
+		<>
+			<CommentWrapper>
+				<ScoreWrapper>
+					<ScoreButton
+						disabled={didUserIncrementVote}
+						onClick={onIncrementScore}
 					>
-						Reply
-					</IconedButton>
-				)}
+						<PlusIcon />
+					</ScoreButton>
 
-				{username === currentUser.username && (
-					<>
-						<p>you</p>
-						<div>
-							<button onClick={onShowUpdateComment}>Edit</button>
-						</div>
-						<div>
-							<button onClick={onShowDeleteModal}>Delete</button>
-						</div>
-					</>
-				)}
-			</InfoLine>
+					<ScoreCount>{updatedScore}</ScoreCount>
 
-			<CommentLine>
-				{showUpdateComment ? (
-					<TextArea
-						buttonTitle="Update"
-						initialValue={content}
-						onSubmit={onUpdateComment}
-					/>
-				) : (
-					<p>{content}</p>
-				)}
-			</CommentLine>
+					<ScoreButton
+						disabled={didUserDecrementVote}
+						onClick={onDecrementScore}
+					>
+						<MinusIcon />
+					</ScoreButton>
+				</ScoreWrapper>
 
-			{showNewReply && (
-				<NewComment
-					index={index}
-					level={1}
-					replyingTo={username}
-					onUpdate={onUpdate}
-					onHide={onHideNewReply}
-				/>
-			)}
+				<InfoLine>
+					<InfoWrapper>
+						<Image src={webp} alt={`${username} photo`} />
+						<UserName>{username}</UserName>
+						<p>{createdAt}</p>
+					</InfoWrapper>
 
-			<>
-				{hasReplies &&
-					replies?.map((reply) => (
-						<Comments
-							key={reply.id}
-							index={index}
-							onUpdate={onUpdate}
-							currentUser={currentUser}
-							{...reply}
+					{username !== currentUser.username && (
+						<IconedButton
+							icon={<ReplyIcon />}
+							onClick={onShowNewReply}
+							textWeight="medium"
+						>
+							Reply
+						</IconedButton>
+					)}
+
+					{username === currentUser.username && (
+						<>
+							<p>you</p>
+							<div>
+								<button onClick={onShowUpdateComment}>Edit</button>
+							</div>
+							<div>
+								<button onClick={onShowDeleteModal}>Delete</button>
+							</div>
+						</>
+					)}
+				</InfoLine>
+
+				<CommentLine>
+					{showUpdateComment ? (
+						<TextArea
+							buttonTitle="Update"
+							initialValue={content}
+							onSubmit={onUpdateComment}
 						/>
-					))}
-			</>
+					) : (
+						<p>{content}</p>
+					)}
+				</CommentLine>
 
-			<Modal
-				message="Are you sure you want to delete this comment? This will remove the comment and can't be undone."
-				primaryAction={deleteComment}
-				primaryLabel="Yes, delete"
-				title="Delete comment"
-				secondaryAction={onHideDeleteModal}
-				secondaryLabel="No, cancel"
-				show={showDeleteModal}
-			/>
-		</Wrapper>
+				{showNewReply && (
+					<NewComment
+						index={index}
+						level={1}
+						replyingTo={username}
+						onUpdate={onUpdate}
+						onHide={onHideNewReply}
+					/>
+				)}
+
+				<Modal
+					message="Are you sure you want to delete this comment? This will remove the comment and can't be undone."
+					primaryAction={deleteComment}
+					primaryLabel="Yes, delete"
+					title="Delete comment"
+					secondaryAction={onHideDeleteModal}
+					secondaryLabel="No, cancel"
+					show={showDeleteModal}
+				/>
+			</CommentWrapper>
+
+			{hasReplies && (
+				<ReplyWrapper>
+					<ReplyBar />
+					<div>
+						{replies?.map((reply) => (
+							<Comments
+								key={reply.id}
+								index={index}
+								onUpdate={onUpdate}
+								currentUser={currentUser}
+								{...reply}
+							/>
+						))}
+					</div>
+				</ReplyWrapper>
+			)}
+		</>
 	)
 }

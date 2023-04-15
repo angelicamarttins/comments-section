@@ -6,6 +6,7 @@ type IconedButtonProps = {
 	children: ReactNode
 	icon: JSX.Element
 	textColor?: ThemeColors
+	textHover?: ThemeColors
 	textWeight?: ThemeWeight
 	onClick: () => void
 }
@@ -15,11 +16,13 @@ export const IconedButton = ({
 	icon,
 	onClick,
 	textColor,
+	textHover,
 	textWeight
 }: IconedButtonProps) => (
 	<IconedButtonBase
 		onClick={onClick}
 		textColor={textColor}
+		textHover={textHover}
 		textWeight={textWeight}
 	>
 		{icon}

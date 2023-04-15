@@ -6,7 +6,7 @@ type ScoreButtonThemeProps = {
 	disabled: boolean
 }
 
-export const Wrapper = styled.div`
+export const CommentWrapper = styled.div`
 	${({ theme }: ThemeProps<Theme>) => css`
 		display: grid;
 		grid-template-rows: 50px 1fr;
@@ -17,6 +17,18 @@ export const Wrapper = styled.div`
 		border-radius: 8px;
 
 		background-color: ${theme.colors.white};
+	`}
+`
+
+export const ReplyWrapper = styled.div`
+	display: flex;
+`
+export const ReplyBar = styled.div`
+	${({ theme }: ThemeProps<Theme>) => css`
+		width: 5px;
+
+		margin: 1.25rem 2.5rem;
+		background-color: ${theme.colors.graySoft};
 	`}
 `
 
@@ -65,34 +77,37 @@ export const ScoreWrapper = styled.div`
 
 export const ScoreButton = styled.button`
 	${({ theme, disabled }: ScoreButtonThemeProps) => css`
-		> svg {
-			background-color: red;
-		}
-
-		width: 100%;
-		height: 100%;
-		padding: 0.35rem 0;
 		border: none;
 
 		background-color: transparent;
-		color: ${theme.colors.blueSoft};
 
 		font-weight: bold;
 		cursor: pointer;
 
 		:hover {
-			color: ${theme.colors.blueDark};
+			fill: ${theme.colors.blueDark};
 		}
 
-		${disabled &&
-		css`
-			color: ${theme.colors.graySoft};
+		> svg {
+			padding: 0.5rem;
 
-			:hover {
-				color: transparent;
-				cursor: not-allowed;
+			:hover path {
+				fill: ${theme.colors.blueDark};
 			}
-		`}
+
+			${disabled &&
+			css`
+				cursor: not-allowed;
+
+				path {
+					fill: ${theme.colors.graySoft};
+				}
+
+				:hover path {
+					fill: ${theme.colors.graySoft};
+				}
+			`}
+		}
 	`}
 `
 
@@ -108,6 +123,7 @@ export const Image = styled.img`
 	width: 32px;
 	height: 32px;
 `
+
 export const UserName = styled.h1`
 	${({ theme }: ThemeProps<Theme>) => css`
 		color: ${theme.colors.grayDark};
