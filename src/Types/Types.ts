@@ -54,6 +54,7 @@ type Weight = {
 }
 
 type Size = {
+	small: string
 	regular: string
 }
 

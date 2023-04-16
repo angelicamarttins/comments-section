@@ -136,3 +136,16 @@ export const MultiButton = styled.div`
 	display: flex;
 	gap: 1.5rem;
 `
+
+export const Chip = styled.span`
+	${({ theme }: ThemeProps<Theme>) => css`
+		padding: 0.1rem 0.25rem;
+
+		border-radius: 2px;
+		background-color: ${theme.colors.blueDark};
+		color: ${theme.colors.white};
+
+		font-size: ${theme.fonts.size.small};
+		font-weight: ${theme.fonts.weight.medium};
+	`}
+`

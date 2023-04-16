@@ -34,7 +34,7 @@ export function useSubmitComment({
 			level,
 			id: uuidv4(),
 			content: comment,
-			createdAt: 'Today',
+			createdAt: new Date().toISOString(),
 			...(replyingTo && { replyingTo }),
 			replies: [],
 			originalScore: 0,

@@ -19,6 +19,7 @@ export const theme: Theme = {
 			bold: '700'
 		},
 		size: {
+			small: '13px',
 			regular: '16px'
 		}
 	}

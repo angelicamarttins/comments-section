@@ -10,7 +10,8 @@ import {
 	CommentWrapper,
 	ReplyWrapper,
 	ReplyBar,
-	MultiButton
+	MultiButton,
+	Chip
 } from './Comments.styles'
 import { CommentsType, UserType } from '../../Types/Types'
 
@@ -26,6 +27,7 @@ import { NewComment } from '../NewComment'
 import { TextArea } from '../TextArea/TextArea'
 import { useComments } from './hooks/useComments'
 import { IconedButton } from '../IconedButton'
+import { formatDistanceToNowStrict } from 'date-fns'
 
 type CommentsProps = CommentsType & {
 	currentUser: UserType
@@ -102,7 +104,13 @@ export const Comments = ({
 					<InfoWrapper>
 						<Image src={webp} alt={`${username} photo`} />
 						<UserName>{username}</UserName>
-						<p>{createdAt}</p>
+						{isUser && <Chip>you</Chip>}
+						<p>
+							{formatDistanceToNowStrict(new Date(createdAt), {
+								addSuffix: true,
+								roundingMethod: 'ceil'
+							})}
+						</p>
 					</InfoWrapper>
 
 					{!isUser && (
@@ -113,7 +121,6 @@ export const Comments = ({
 
 					{isUser && (
 						<>
-							<p>you</p>
 							<MultiButton>
 								<IconedButton
 									icon={<DeleteIcon />}
