@@ -11,7 +11,8 @@ import {
 	ReplyWrapper,
 	ReplyBar,
 	MultiButton,
-	Chip
+	Chip,
+	Content
 } from './Comments.styles'
 import { CommentsType, UserType } from '../../Types/Types'
 
@@ -147,7 +148,7 @@ export const Comments = ({
 							onSubmit={onUpdateComment}
 						/>
 					) : (
-						<p>{content}</p>
+						<Content>{content}</Content>
 					)}
 				</CommentLine>
 

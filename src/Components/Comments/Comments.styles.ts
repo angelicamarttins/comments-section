@@ -9,7 +9,7 @@ type ScoreButtonThemeProps = {
 export const CommentWrapper = styled.div`
 	${({ theme }: ThemeProps<Theme>) => css`
 		display: grid;
-		grid-template-rows: 50px 1fr;
+		grid-template-rows: 40px 1fr;
 		grid-template-columns: 50px 1fr;
 
 		padding: 1rem;
@@ -38,9 +38,9 @@ export const InfoLine = styled.div`
 	justify-content: space-between;
 	align-items: center;
 
-	grid-area: 1 / 2 / 1 / 2;
+	margin-left: 16px;
 
-	border: 1px solid;
+	grid-area: 1 / 2 / 1 / 2;
 `
 
 export const InfoWrapper = styled.div`
@@ -53,8 +53,6 @@ export const InfoWrapper = styled.div`
 
 export const CommentLine = styled.div`
 	grid-area: 2 / 2 / 2 / 2;
-
-	border: 1px solid red;
 `
 
 export const ScoreWrapper = styled.div`
@@ -148,4 +146,8 @@ export const Chip = styled.span`
 		font-size: ${theme.fonts.size.small};
 		font-weight: ${theme.fonts.weight.medium};
 	`}
+`
+
+export const Content = styled.p`
+	margin: 10px 16px;
 `
