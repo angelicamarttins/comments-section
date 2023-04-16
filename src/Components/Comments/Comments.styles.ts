@@ -23,6 +23,7 @@ export const CommentWrapper = styled.div`
 export const ReplyWrapper = styled.div`
 	display: flex;
 `
+
 export const ReplyBar = styled.div`
 	${({ theme }: ThemeProps<Theme>) => css`
 		width: 5px;
@@ -130,4 +131,8 @@ export const UserName = styled.h1`
 
 		font-size: ${theme.fonts.size.regular};
 	`}
+`
+export const MultiButton = styled.div`
+	display: flex;
+	gap: 1.5rem;
 `

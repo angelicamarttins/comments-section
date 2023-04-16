@@ -20,7 +20,7 @@ export const IconedButtonBase = styled.button`
 		justify-content: space-between;
 		align-items: baseline;
 
-		padding: 1em;
+		padding: 1rem 0;
 
 		border: none;
 

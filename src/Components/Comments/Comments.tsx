@@ -9,7 +9,8 @@ import {
 	UserName,
 	CommentWrapper,
 	ReplyWrapper,
-	ReplyBar
+	ReplyBar,
+	MultiButton
 } from './Comments.styles'
 import { CommentsType, UserType } from '../../Types/Types'
 
@@ -46,7 +47,7 @@ export const Comments = ({
 	onUpdate
 }: CommentsProps) => {
 	const { image, username } = user
-	const { png, webp } = image
+	const { webp } = image
 
 	const {
 		didUserDecrementVote,
@@ -113,7 +114,7 @@ export const Comments = ({
 					{isUser && (
 						<>
 							<p>you</p>
-							<div>
+							<MultiButton>
 								<IconedButton
 									icon={<DeleteIcon />}
 									textColor="red"
@@ -122,13 +123,11 @@ export const Comments = ({
 								>
 									Delete
 								</IconedButton>
-							</div>
 
-							<div>
 								<IconedButton onClick={onShowUpdateComment} icon={<EditIcon />}>
 									Edit
 								</IconedButton>
-							</div>
+							</MultiButton>
 						</>
 					)}
 				</InfoLine>
