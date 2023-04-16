@@ -13,7 +13,13 @@ import {
 } from './Comments.styles'
 import { CommentsType, UserType } from '../../Types/Types'
 
-import { MinusIcon, PlusIcon, ReplyIcon } from '../../assets/icons'
+import {
+	DeleteIcon,
+	EditIcon,
+	MinusIcon,
+	PlusIcon,
+	ReplyIcon
+} from '../../assets/icons'
 import { Modal } from '../Modal'
 import { NewComment } from '../NewComment'
 import { TextArea } from '../TextArea/TextArea'
@@ -59,7 +65,16 @@ export const Comments = ({
 		onShowNewReply,
 		onShowUpdateComment,
 		onUpdateComment
-	} = useComments({ id, level, originalScore, replies, score, onUpdate })
+	} = useComments({
+		id,
+		level,
+		originalScore,
+		replies,
+		score,
+		onUpdate
+	})
+
+	const isUser = username === currentUser.username
 
 	return (
 		<>
@@ -89,24 +104,30 @@ export const Comments = ({
 						<p>{createdAt}</p>
 					</InfoWrapper>
 
-					{username !== currentUser.username && (
-						<IconedButton
-							icon={<ReplyIcon />}
-							onClick={onShowNewReply}
-							textWeight="medium"
-						>
+					{!isUser && (
+						<IconedButton icon={<ReplyIcon />} onClick={onShowNewReply}>
 							Reply
 						</IconedButton>
 					)}
 
-					{username === currentUser.username && (
+					{isUser && (
 						<>
 							<p>you</p>
 							<div>
-								<button onClick={onShowUpdateComment}>Edit</button>
+								<IconedButton
+									icon={<DeleteIcon />}
+									textColor="red"
+									textHover="redSoft"
+									onClick={onShowDeleteModal}
+								>
+									Delete
+								</IconedButton>
 							</div>
+
 							<div>
-								<button onClick={onShowDeleteModal}>Delete</button>
+								<IconedButton onClick={onShowUpdateComment} icon={<EditIcon />}>
+									Edit
+								</IconedButton>
 							</div>
 						</>
 					)}

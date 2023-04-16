@@ -19,7 +19,6 @@ export const IconedButtonBase = styled.button`
 		display: flex;
 		justify-content: space-between;
 		align-items: baseline;
-		width: 95px;
 
 		padding: 1em;
 
@@ -28,15 +27,17 @@ export const IconedButtonBase = styled.button`
 		background-color: transparent;
 		color: ${theme.colors[textColor || 'blueDark']};
 
-		font-weight: ${theme.fonts.weight[textWeight || 'regular']};
+		font-weight: ${theme.fonts.weight[textWeight || 'medium']};
 
 		cursor: pointer;
 
-		:hover {
-			color: ${theme.colors[textHover || 'blueSoft']};
+		> svg {
+			padding-right: 5px;
 		}
 
+		:hover,
 		:hover path {
+			color: ${theme.colors[textHover || 'blueSoft']};
 			fill: ${theme.colors[textHover || 'blueSoft']};
 		}
 	`}
