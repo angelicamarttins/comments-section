@@ -8,6 +8,7 @@ type ScoreButtonThemeProps = {
 
 export const CommentWrapper = styled.div`
 	${({ theme }: ThemeProps<Theme>) => css`
+		min-width: 600px;
 		display: grid;
 		grid-template-rows: 40px 1fr;
 		grid-template-columns: 50px 1fr;
