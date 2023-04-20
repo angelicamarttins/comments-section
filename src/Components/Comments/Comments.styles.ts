@@ -49,6 +49,7 @@ export const InfoWrapper = styled.div`
 	align-items: center;
 
 	width: 45%;
+	min-width: 250px;
 `
 
 export const CommentLine = styled.div`

@@ -41,8 +41,8 @@ export function useSubmitComment({
 			score: 0,
 			user: {
 				image: {
-					png: './src/assets/images/avatars/image-juliusomo.png',
-					webp: './src/assets/images/avatars/image-juliusomo.webp'
+					png: './src/assets/images/image-juliusomo.png',
+					webp: './src/assets/images/image-juliusomo.webp'
 				},
 				username: 'juliusomo'
 			}
