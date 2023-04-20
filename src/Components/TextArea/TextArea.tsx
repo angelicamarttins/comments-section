@@ -1,6 +1,7 @@
 import { Dispatch, FormEvent, SetStateAction } from 'react'
 
 import { useHandleComments } from '../../Hooks'
+import { TextAreaInput, TextAreaWrapper } from './TextArea.styles'
 
 type TextAreaProps = {
 	buttonTitle: string
@@ -22,18 +23,20 @@ export const TextArea = ({
 	const { comment, handleComment } = useHandleComments(initialValue)
 
 	return (
-		<form
-			id="textarea"
-			onSubmit={(event) => onSubmit(comment, event, handleComment)}
-		>
-			<textarea
-				autoFocus
-				onChange={({ target }) => onChange || handleComment(target.value)}
-				value={comment}
-			/>
-			<button id="textarea" type="submit">
-				{buttonTitle}
-			</button>
-		</form>
+		<TextAreaWrapper>
+			<form
+				id="textarea"
+				onSubmit={(event) => onSubmit(comment, event, handleComment)}
+			>
+				<TextAreaInput
+					autoFocus
+					onChange={({ target }) => onChange || handleComment(target.value)}
+					value={comment}
+				/>
+				<button id="textarea" type="submit">
+					{buttonTitle}
+				</button>
+			</form>
+		</TextAreaWrapper>
 	)
 }
